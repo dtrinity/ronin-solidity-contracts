@@ -6,33 +6,33 @@ Simplify Ronin deployment by removing all deployment scripts for products other 
 ## Tasks
 
 ### Remove Complete Product Ecosystems
-- [ ] Delete entire `/deploy/01_ds_ecosystem/` directory (13 files) - dS token and related infrastructure
-- [ ] Delete entire `/deploy/03_dlend/` directory (14 files) - Aave-based lending protocol
-- [ ] Delete entire `/deploy/08_dstake/` directory (5 files) - Staking infrastructure
-- [ ] Delete entire `/deploy/11_dpool/` directory (3 files) - Pool vaults and peripheries
-- [ ] Delete entire `/deploy/12_dloop/` directory (6 files) - Leveraged loop products
+- [x] Delete entire `/deploy/01_ds_ecosystem/` directory (13 files) - dS token and related infrastructure
+- [x] Delete entire `/deploy/03_dlend/` directory (14 files) - Aave-based lending protocol
+- [x] Delete entire `/deploy/08_dstake/` directory (5 files) - Staking infrastructure
+- [x] Delete entire `/deploy/11_dpool/` directory (3 files) - Pool vaults and peripheries
+- [x] Delete entire `/deploy/12_dloop/` directory (6 files) - Leveraged loop products
 
 ### Remove Specific Feature Deployment Scripts
-- [ ] Delete `/deploy/05_dlend_odos_adapters/01_add_odos_swap_adapters.ts` - Odos swap adapters
-- [ ] Delete `/deploy/06_dlend_wstkscusd_reserve/` directory (3 files) - Specific reserve tokens
-- [ ] Delete `/deploy/07_dlend_static_wrappers/` directory (2 files) - Static aToken wrappers
-- [ ] Delete `/deploy/09_redeemer_with_fees/01_deploy_redeemer_with_fees.ts` - Fee-based redeemer
-- [ ] Delete `/deploy/10_vesting_dstake/01_deploy_vesting_nft.ts` - Vesting NFT contracts
-- [ ] Delete `/deploy/13_dlend_weth_sceth_wstksceth_reserves/` directory (3 files) - ETH-based reserves
-- [ ] Delete `/deploy/14_dlend_wOS_PTaUSDC_PTwstkscusd/` directory (5 files) - Pendle PT tokens
+- [x] Delete `/deploy/05_dlend_odos_adapters/01_add_odos_swap_adapters.ts` - Odos swap adapters
+- [x] Delete `/deploy/06_dlend_wstkscusd_reserve/` directory (3 files) - Specific reserve tokens
+- [x] Delete `/deploy/07_dlend_static_wrappers/` directory (2 files) - Static aToken wrappers
+- [x] Delete `/deploy/09_redeemer_with_fees/01_deploy_redeemer_with_fees.ts` - Fee-based redeemer
+- [x] Delete `/deploy/10_vesting_dstake/01_deploy_vesting_nft.ts` - Vesting NFT contracts
+- [x] Delete `/deploy/13_dlend_weth_sceth_wstksceth_reserves/` directory (3 files) - ETH-based reserves
+- [x] Delete `/deploy/14_dlend_wOS_PTaUSDC_PTwstkscusd/` directory (5 files) - Pendle PT tokens
 
 ### Remove Non-dUSD dSTABLE Scripts from dUSD Ecosystem
-- [ ] Remove Redstone oracle setup from `/deploy/02_dusd_ecosystem/02_setup_usd_redstone_oracle_wrappers.ts`
-- [ ] Remove Redstone aggregator pointing from `/deploy/02_dusd_ecosystem/06_point_usd_aggregator_to_redstone_wrappers.ts`
+- [x] Remove Redstone oracle setup from `/deploy/02_dusd_ecosystem/02_setup_usd_redstone_oracle_wrappers.ts`
+- [x] Remove Redstone aggregator pointing from `/deploy/02_dusd_ecosystem/06_point_usd_aggregator_to_redstone_wrappers.ts`
 
 ### Remove Shell Scripts for Non-Essential Products
-- [ ] Delete `/scripts/dloop/` directory (5 shell scripts) - dLoop deployment automation
-- [ ] Delete `/scripts/dlend/deploy-n-override-incentives-controller.ts` - dLend specific script
-- [ ] Delete `/scripts/dlend/remove-reserve.ts` - dLend reserve management
+- [x] Delete `/scripts/dloop/` directory (5 shell scripts) - dLoop deployment automation
+- [x] Delete `/scripts/dlend/deploy-n-override-incentives-controller.ts` - dLend specific script
+- [x] Delete `/scripts/dlend/remove-reserve.ts` - dLend reserve management
 
 ### Clean Up Role Assignment Scripts
-- [ ] Remove dS-related sections from `/deploy/04_assign_roles_to_multisig/01_transfer_dstable_roles_to_multisig.ts`
-- [ ] Delete `/deploy/04_assign_roles_to_multisig/03_transfer_dlend_roles_to_multisig.ts` - dLend role transfers
+- [x] Remove dS-related sections from `/deploy/04_assign_roles_to_multisig/01_transfer_dstable_roles_to_multisig.ts`
+- [x] Delete `/deploy/04_assign_roles_to_multisig/03_transfer_dlend_roles_to_multisig.ts` - dLend role transfers
 
 ## Notes
 **Keep for Ronin:**

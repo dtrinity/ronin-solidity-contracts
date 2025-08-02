@@ -6,61 +6,61 @@ For the Ronin fork that simplifies the system to only include dUSD (dSTABLE) and
 ## Tasks
 
 ### Test Directories to Remove Completely:
-- [ ] `test/dloop/` - dLOOP leveraged yield farming product (16 files)
-  - [ ] `test/dloop/DLoopCoreMock/` (13 files)
-  - [ ] `test/dloop/DLoopDepositorMock/` (2 files) 
-  - [ ] `test/dloop/DLoopRedeemerMock/` (2 files)
-  - [ ] `test/dloop/ZeroShareVulnerability.ts`
+- [x] `test/dloop/` - dLOOP leveraged yield farming product (16 files)
+  - [x] `test/dloop/DLoopCoreMock/` (13 files)
+  - [x] `test/dloop/DLoopDepositorMock/` (2 files) 
+  - [x] `test/dloop/DLoopRedeemerMock/` (2 files)
+  - [x] `test/dloop/ZeroShareVulnerability.ts`
 
-- [ ] `test/dpool/` - dPOOL liquidity pool product (4 files)
-  - [ ] `test/dpool/Curve-integration.ts`
-  - [ ] `test/dpool/DPoolVaultLP.Event.test.ts`
-  - [ ] `test/dpool/ZeroShareVulnerability.ts`
-  - [ ] `test/dpool/fixture.ts`
+- [x] `test/dpool/` - dPOOL liquidity pool product (4 files)
+  - [x] `test/dpool/Curve-integration.ts`
+  - [x] `test/dpool/DPoolVaultLP.Event.test.ts`
+  - [x] `test/dpool/ZeroShareVulnerability.ts`
+  - [x] `test/dpool/fixture.ts`
 
-- [ ] `test/dstake/` - dSTAKE staking product (10 files)
-  - [ ] `test/dstake/DStakeCollateralVault.ts`
-  - [ ] `test/dstake/DStakeRewardManagerDLend.ts`
-  - [ ] `test/dstake/DStakeRouterDLend.ts`
-  - [ ] `test/dstake/DStakeToken.ts`
-  - [ ] `test/dstake/WrappedDLendConversionAdapter.ts`
-  - [ ] `test/dstake/ZeroShareVulnerability.ts`
-  - [ ] `test/dstake/dLEND-integration.ts`
-  - [ ] `test/dstake/dLEND-yield.ts`
-  - [ ] `test/dstake/fixture.ts`
-  - [ ] `test/dstake/withdraw-surplus-rounding.test.ts`
+- [x] `test/dstake/` - dSTAKE staking product (10 files)
+  - [x] `test/dstake/DStakeCollateralVault.ts`
+  - [x] `test/dstake/DStakeRewardManagerDLend.ts`
+  - [x] `test/dstake/DStakeRouterDLend.ts`
+  - [x] `test/dstake/DStakeToken.ts`
+  - [x] `test/dstake/WrappedDLendConversionAdapter.ts`
+  - [x] `test/dstake/ZeroShareVulnerability.ts`
+  - [x] `test/dstake/dLEND-integration.ts`
+  - [x] `test/dstake/dLEND-yield.ts`
+  - [x] `test/dstake/fixture.ts`
+  - [x] `test/dstake/withdraw-surplus-rounding.test.ts`
 
-- [ ] `test/pendle/` - Pendle integration tests (3 files)
-  - [ ] `test/pendle/PendleSwapPOC.ts`
-  - [ ] `test/pendle/fixture.ts`
-  - [ ] `test/pendle/sdk.ts`
+- [x] `test/pendle/` - Pendle integration tests (3 files)
+  - [x] `test/pendle/PendleSwapPOC.ts`
+  - [x] `test/pendle/fixture.ts`
+  - [x] `test/pendle/sdk.ts`
 
-- [ ] `test/reward_claimable/` - Reward claiming functionality (1 file)
-  - [ ] `test/reward_claimable/RewardClaimable.ts`
+- [x] `test/reward_claimable/` - Reward claiming functionality (1 file)
+  - [x] `test/reward_claimable/RewardClaimable.ts`
 
-- [ ] `test/vesting/` - Vesting NFT functionality (2 files)
-  - [ ] `test/vesting/ERC20VestingNFT.tokenURI.ts`
-  - [ ] `test/vesting/ERC20VestingNFT.ts`
+- [x] `test/vesting/` - Vesting NFT functionality (2 files)
+  - [x] `test/vesting/ERC20VestingNFT.tokenURI.ts`
+  - [x] `test/vesting/ERC20VestingNFT.ts`
 
-- [ ] `test/dlend/` - dLEND lending protocol tests (7 files)
-  - [ ] `test/dlend/AaveOracle.ts`
-  - [ ] `test/dlend/AaveProtocolDataProvider.ts`
-  - [ ] `test/dlend/Pool.ts`
-  - [ ] `test/dlend/StaticAToken.MetaSigMalleability.ts`
-  - [ ] `test/dlend/StaticAToken.ts`
-  - [ ] `test/dlend/UiPoolDataProviderV3.ts`
-  - [ ] `test/dlend/fixtures.ts`
+- [x] `test/dlend/` - dLEND lending protocol tests (7 files)
+  - [x] `test/dlend/AaveOracle.ts`
+  - [x] `test/dlend/AaveProtocolDataProvider.ts`
+  - [x] `test/dlend/Pool.ts`
+  - [x] `test/dlend/StaticAToken.MetaSigMalleability.ts`
+  - [x] `test/dlend/StaticAToken.ts`
+  - [x] `test/dlend/UiPoolDataProviderV3.ts`
+  - [x] `test/dlend/fixtures.ts`
 
-- [ ] `test/mock/` - Mock contract tests (2 files)
-  - [ ] `test/mock/SimpleDEXMock.ts`
-  - [ ] `test/mock/TestERC20FlashMintable.ts`
+- [x] `test/mock/` - Mock contract tests (2 files)
+  - [x] `test/mock/SimpleDEXMock.ts`
+  - [x] `test/mock/TestERC20FlashMintable.ts`
 
 ### Individual Test Files to Remove:
-- [ ] `test/oracle_aggregator/RedstoneChainlinkWrapper.ts` - Redstone oracle tests (non-API3)
-- [ ] `test/oracle_aggregator/RedstoneChainlinkWrapperWithThresholding.ts` - Redstone oracle tests
-- [ ] `test/oracle_aggregator/RedstoneChainlinkCompositeWrapperWithThresholding.ts` - Redstone oracle tests
-- [ ] `test/oracle_aggregator/ChainlinkCompositeAggregator.ts` - Chainlink tests (non-API3)
-- [ ] `test/common/WithdrawalFee.test.ts` - Withdrawal fee tests
+- [x] `test/oracle_aggregator/RedstoneChainlinkWrapper.ts` - Redstone oracle tests (non-API3)
+- [x] `test/oracle_aggregator/RedstoneChainlinkWrapperWithThresholding.ts` - Redstone oracle tests
+- [x] `test/oracle_aggregator/RedstoneChainlinkCompositeWrapperWithThresholding.ts` - Redstone oracle tests
+- [x] `test/oracle_aggregator/ChainlinkCompositeAggregator.ts` - Chainlink tests (non-API3)
+- [x] `test/common/WithdrawalFee.test.ts` - Withdrawal fee tests
 
 ## Notes
 **Files/Directories to KEEP:**

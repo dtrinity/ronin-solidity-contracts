@@ -1,21 +1,16 @@
 import hre, { deployments } from "hardhat";
 
 import {
-  DS_AMO_MANAGER_ID,
-  DS_COLLATERAL_VAULT_CONTRACT_ID,
-  DS_ISSUER_CONTRACT_ID,
-  DS_REDEEMER_CONTRACT_ID,
   DUSD_AMO_MANAGER_ID,
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,
   DUSD_ISSUER_CONTRACT_ID,
   DUSD_REDEEMER_CONTRACT_ID,
-  S_ORACLE_AGGREGATOR_ID,
   USD_ORACLE_AGGREGATOR_ID,
 } from "../../typescript/deploy-ids";
 import { getTokenContractForSymbol } from "../../typescript/token/utils";
 
 export interface DStableFixtureConfig {
-  symbol: "dUSD" | "dS";
+  symbol: "dUSD";
   issuerContractId: string;
   redeemerContractId: string;
   collateralVaultContractId: string;
@@ -83,13 +78,3 @@ export const DUSD_CONFIG: DStableFixtureConfig = {
   yieldBearingCollaterals: ["sfrxUSD", "sUSDS"],
 };
 
-export const DS_CONFIG: DStableFixtureConfig = {
-  symbol: "dS",
-  issuerContractId: DS_ISSUER_CONTRACT_ID,
-  redeemerContractId: DS_REDEEMER_CONTRACT_ID,
-  collateralVaultContractId: DS_COLLATERAL_VAULT_CONTRACT_ID,
-  amoManagerId: DS_AMO_MANAGER_ID,
-  oracleAggregatorId: S_ORACLE_AGGREGATOR_ID,
-  peggedCollaterals: ["wS"],
-  yieldBearingCollaterals: ["wOS", "stS"],
-};

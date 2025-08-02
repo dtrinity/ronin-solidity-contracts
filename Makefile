@@ -52,11 +52,11 @@ slither: ## Run Slither static analysis on all contracts with summaries and loc
 	@mkdir -p reports
 	@echo "Generating JSON report..."
 	@slither . --config-file slither.config.json \
-		--filter-paths "contracts/dlend,contracts/mocks,contracts/testing" \
+		--filter-paths "contracts/mocks,contracts/testing" \
 		--json reports/slither/slither-report.json || true
 	@echo "Generating human-readable summary..."
 	@slither . --config-file slither.config.json \
-		--filter-paths "contracts/dlend,contracts/mocks,contracts/testing" \
+		--filter-paths "contracts/mocks,contracts/testing" \
 		--print human-summary \
 		--disable-color > reports/slither-summary.md 2>&1 || true
 	@echo "Results saved to reports/slither/slither-report.json and reports/slither-summary.md"
@@ -66,7 +66,7 @@ slither.check: ## Run Slither with fail-on-high severity with summaries and loc
 	@mkdir -p reports/slither
 	@mkdir -p reports
 	@slither . --config-file slither.config.json --fail-high \
-		--filter-paths "contracts/dlend,contracts/mocks,contracts/testing" \
+		--filter-paths "contracts/mocks,contracts/testing" \
 		--print human-summary \
 		--print contract-summary \
 		--print loc \
@@ -74,14 +74,14 @@ slither.check: ## Run Slither with fail-on-high severity with summaries and loc
 
 slither.focused: ## Run Slither on specific contract with summaries and loc (usage: make slither.focused contract=ContractName)
 	@if [ "$(contract)" = "" ]; then \
-		echo "Must provide 'contract' argument. Example: 'make slither.focused contract=contracts/dlend/core/protocol/pool/Pool.sol'"; \
+		echo "Must provide 'contract' argument. Example: 'make slither.focused contract=contracts/dstable/dUSD.sol'"; \
 		exit 1; \
 	fi
 	@echo "Running Slither on $(contract)..."
 	@mkdir -p reports/slither
 	@mkdir -p reports
 	@slither $(contract) --config-file slither.config.json \
-		--filter-paths "contracts/dlend,contracts/mocks,contracts/testing" \
+		--filter-paths "contracts/mocks,contracts/testing" \
 		--print human-summary \
 		--print contract-summary \
 		--print loc \
@@ -96,7 +96,7 @@ mythril: ## Run Mythril security analysis on all contracts
 
 mythril.focused: ## Run Mythril on specific contract (usage: make mythril.focused contract=ContractName)
 	@if [ "$(contract)" = "" ]; then \
-		echo "Must provide 'contract' argument. Example: 'make mythril.focused contract=contracts/dlend/core/protocol/pool/Pool.sol'"; \
+		echo "Must provide 'contract' argument. Example: 'make mythril.focused contract=contracts/dstable/dUSD.sol'"; \
 		exit 1; \
 	fi
 	@echo "Running Mythril analysis on $(contract)..."

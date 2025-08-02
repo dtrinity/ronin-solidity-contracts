@@ -6,33 +6,33 @@ Simplify the forked sonic-solidity-contracts repository for Ronin by removing al
 ## Tasks
 
 ### Remove entire product directories:
-- [ ] Remove dLEND (Aave v3 fork): `/contracts/dlend/`
-- [ ] Remove dSTAKE (yield vault system): `/contracts/vaults/dstake/`
-- [ ] Remove dPOOL (Curve LP vaults): `/contracts/vaults/dpool/`
-- [ ] Remove dLOOP (leveraged vaults): `/contracts/vaults/dloop/`
-- [ ] Remove Pendle integration: `/contracts/pendle/`
-- [ ] Remove Odos integration: `/contracts/odos/`
-- [ ] Remove aToken wrapper vaults: `/contracts/vaults/atoken_wrapper/`
-- [ ] Remove rewards claimable vaults: `/contracts/vaults/rewards_claimable/`
-- [ ] Remove vesting vaults: `/contracts/vaults/vesting/`
+- [x] Remove dLEND (Aave v3 fork): `/contracts/dlend/`
+- [x] Remove dSTAKE (yield vault system): `/contracts/vaults/dstake/`
+- [x] Remove dPOOL (Curve LP vaults): `/contracts/vaults/dpool/`
+- [x] Remove dLOOP (leveraged vaults): `/contracts/vaults/dloop/`
+- [x] Remove Pendle integration: `/contracts/pendle/`
+- [x] Remove Odos integration: `/contracts/odos/`
+- [x] Remove aToken wrapper vaults: `/contracts/vaults/atoken_wrapper/`
+- [x] Remove rewards claimable vaults: `/contracts/vaults/rewards_claimable/`
+- [x] Remove vesting vaults: `/contracts/vaults/vesting/`
 
 ### Remove non-API3 oracle integrations:
-- [ ] Remove Chainlink oracle wrapper: `/contracts/oracle_aggregator/wrapper/RedstoneChainlinkWrapper.sol`
-- [ ] Remove Chainlink composite wrapper: `/contracts/oracle_aggregator/wrapper/RedstoneChainlinkCompositeWrapperWithThresholding.sol`
-- [ ] Remove Chainlink decimal converter: `/contracts/oracle_aggregator/chainlink/ChainlinkDecimalConverter.sol`
-- [ ] Remove Chainlink composite aggregator: `/contracts/oracle_aggregator/chainlink/ChainlinkCompositeAggregator.sol`
-- [ ] Remove Chainlink interfaces: `/contracts/oracle_aggregator/interface/chainlink/`
-- [ ] Remove HardPegOracleWrapper: `/contracts/oracle_aggregator/wrapper/HardPegOracleWrapper.sol`
-- [ ] Remove ThresholdingUtils: `/contracts/oracle_aggregator/wrapper/ThresholdingUtils.sol`
+- [x] Remove Chainlink oracle wrapper: `/contracts/oracle_aggregator/wrapper/RedstoneChainlinkWrapper.sol`
+- [x] Remove Chainlink composite wrapper: `/contracts/oracle_aggregator/wrapper/RedstoneChainlinkCompositeWrapperWithThresholding.sol`
+- [x] Remove Chainlink decimal converter: `/contracts/oracle_aggregator/chainlink/ChainlinkDecimalConverter.sol`
+- [x] Remove Chainlink composite aggregator: `/contracts/oracle_aggregator/chainlink/ChainlinkCompositeAggregator.sol`
+- [x] Remove Chainlink interfaces: `/contracts/oracle_aggregator/interface/chainlink/`
+- [x] Remove HardPegOracleWrapper: `/contracts/oracle_aggregator/wrapper/HardPegOracleWrapper.sol`
+- [x] Remove ThresholdingUtils: `/contracts/oracle_aggregator/wrapper/ThresholdingUtils.sol`
 
 ### Remove related test contracts:
-- [ ] Remove Pendle test contracts: `/contracts/testing/pendle/`
-- [ ] Remove mock oracle contracts (except API3): `/contracts/testing/oracle/MockChainlinkAggregatorV3.sol`, `/contracts/testing/oracle/MockRedstoneChainlinkOracleAlwaysAlive.sol`
-- [ ] Remove dSTAKE test contracts: `/contracts/testing/dstake/`
-- [ ] Remove Odos mock: `/contracts/mocks/MockOdosSwapper.sol`
-- [ ] Remove Curve mocks: `/contracts/mocks/MockCurveStableSwapNG.sol`
-- [ ] Remove adapter mocks: `/contracts/mocks/MockAdapterPositiveSlippage.sol`, `/contracts/mocks/MockAdapterSmallDepositRevert.sol`
-- [ ] Remove ERC4626 mock: `/contracts/mocks/MockERC4626Simple.sol`
+- [x] Remove Pendle test contracts: `/contracts/testing/pendle/`
+- [x] Remove mock oracle contracts (except API3): `/contracts/testing/oracle/MockChainlinkAggregatorV3.sol`, `/contracts/testing/oracle/MockRedstoneChainlinkOracleAlwaysAlive.sol`
+- [x] Remove dSTAKE test contracts: `/contracts/testing/dstake/`
+- [x] Remove Odos mock: `/contracts/mocks/MockOdosSwapper.sol`
+- [x] Remove Curve mocks: `/contracts/mocks/MockCurveStableSwapNG.sol`
+- [x] Remove adapter mocks: `/contracts/mocks/MockAdapterPositiveSlippage.sol`, `/contracts/mocks/MockAdapterSmallDepositRevert.sol`
+- [x] Remove ERC4626 mock: `/contracts/mocks/MockERC4626Simple.sol`
 
 ## Notes
 Keep contracts related to:

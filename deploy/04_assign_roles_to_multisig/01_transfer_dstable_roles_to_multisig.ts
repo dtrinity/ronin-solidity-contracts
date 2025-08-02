@@ -3,7 +3,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 import { getConfig } from "../../config/config";
-import { ZERO_BYTES_32 } from "../../typescript/dlend/constants";
+import { ZERO_BYTES_32 } from "../../typescript/common/constants";
 import { isMainnet } from "../../typescript/hardhat/deploy";
 
 /**
@@ -694,6 +694,6 @@ async function transferCollateralVaultRoles(
 
 func.id = "transfer_dstable_roles_to_multisig";
 func.tags = ["governance", "roles"];
-func.dependencies = ["dusd", "ds"];
+func.dependencies = ["dusd"];
 
 export default func;

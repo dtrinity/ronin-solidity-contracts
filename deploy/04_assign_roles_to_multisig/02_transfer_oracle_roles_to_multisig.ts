@@ -3,11 +3,8 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 import { getConfig } from "../../config/config";
-import {
-  S_ORACLE_AGGREGATOR_ID,
-  USD_ORACLE_AGGREGATOR_ID,
-} from "../../typescript/deploy-ids";
-import { ZERO_BYTES_32 } from "../../typescript/dlend/constants";
+import { ZERO_BYTES_32 } from "../../typescript/common/constants";
+import { USD_ORACLE_AGGREGATOR_ID } from "../../typescript/deploy-ids";
 import { isMainnet } from "../../typescript/hardhat/deploy";
 
 /**
@@ -38,16 +35,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     hre,
     USD_ORACLE_AGGREGATOR_ID,
     "USD",
-    deployerSigner,
-    governanceMultisig,
-    deployer,
-  );
-
-  // Transfer roles for S oracle aggregator
-  await transferOracleAggregatorRoles(
-    hre,
-    S_ORACLE_AGGREGATOR_ID,
-    "S",
     deployerSigner,
     governanceMultisig,
     deployer,
@@ -167,6 +154,6 @@ async function transferOracleAggregatorRoles(
 
 func.id = "transfer_oracle_roles_to_multisig";
 func.tags = ["governance", "roles"];
-func.dependencies = ["usd-oracle", "s-oracle"];
+func.dependencies = ["usd-oracle"];
 
 export default func;

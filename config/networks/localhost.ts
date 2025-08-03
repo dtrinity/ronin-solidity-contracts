@@ -88,7 +88,6 @@ export async function getConfig(
     },
     walletAddresses: {
       governanceMultisig: deployer,
-      incentivesVault: deployer,
     },
     dStables: {
       dUSD: {

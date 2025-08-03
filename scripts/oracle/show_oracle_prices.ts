@@ -102,15 +102,6 @@ async function dumpAggregatorPrices(): Promise<void> {
       aggConfig.api3OracleAssets?.compositeApi3OracleWrappersWithThresholding,
     );
 
-    // Redstone
-    addKeys(aggConfig.redstoneOracleAssets?.plainRedstoneOracleWrappers);
-    addKeys(
-      aggConfig.redstoneOracleAssets?.redstoneOracleWrappersWithThresholding,
-    );
-    addKeys(
-      aggConfig.redstoneOracleAssets
-        ?.compositeRedstoneOracleWrappersWithThresholding,
-    );
 
     // Chainlink composite wrappers (simple map asset->config)
     addKeys(aggConfig.chainlinkCompositeWrapperAggregator);

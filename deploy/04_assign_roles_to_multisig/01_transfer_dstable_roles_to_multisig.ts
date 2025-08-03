@@ -29,66 +29,63 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   // Get the governance multisig address
   const { governanceMultisig } = config.walletAddresses;
 
-  // Iterate over all dStables in the config
-  const dStableNames = Object.keys(config.dStables);
+  // Handle dUSD ecosystem (only remaining dStable)
+  const dStableName = "dUSD";
+  console.log(`\n🔄 Transferring roles for ${dStableName}...`);
 
-  for (const dStableName of dStableNames) {
-    console.log(`\n🔄 Transferring roles for ${dStableName}...`);
+  // Get token IDs for dUSD
+  const tokenId = dStableName;
+  const issuerContractId = `${dStableName}_Issuer`;
+  const redeemerWithFeesContractId = `${dStableName}_RedeemerWithFees`;
+  const collateralVaultContractId = `${dStableName}_CollateralHolderVault`;
+  const amoManagerId = `${dStableName}_AmoManager`;
 
-    // Get token IDs based on the dStable name
-    const tokenId = dStableName; // The token ID is the same as the dStable name (e.g., "dUSD" or "dS")
-    const issuerContractId = `${dStableName}_Issuer`;
-    const redeemerContractId = `${dStableName}_Redeemer`;
-    const collateralVaultContractId = `${dStableName}_CollateralHolderVault`;
-    const amoManagerId = `${dStableName}_AmoManager`;
+  // Transfer token roles
+  await transferTokenRoles(
+    hre,
+    tokenId,
+    deployerSigner,
+    governanceMultisig,
+    deployer,
+  );
 
-    // Transfer token roles
-    await transferTokenRoles(
-      hre,
-      tokenId,
-      deployerSigner,
-      governanceMultisig,
-      deployer,
-    );
+  // Transfer Issuer roles
+  await transferIssuerRoles(
+    hre,
+    issuerContractId,
+    deployerSigner,
+    governanceMultisig,
+    deployer,
+  );
 
-    // Transfer Issuer roles
-    await transferIssuerRoles(
-      hre,
-      issuerContractId,
-      deployerSigner,
-      governanceMultisig,
-      deployer,
-    );
+  // Transfer RedeemerWithFees roles
+  await transferRedeemerWithFeesRoles(
+    hre,
+    redeemerWithFeesContractId,
+    deployerSigner,
+    governanceMultisig,
+    deployer,
+  );
 
-    // Transfer Redeemer roles
-    await transferRedeemerRoles(
-      hre,
-      redeemerContractId,
-      deployerSigner,
-      governanceMultisig,
-      deployer,
-    );
+  // Transfer AmoManager roles
+  await transferAmoManagerRoles(
+    hre,
+    amoManagerId,
+    deployerSigner,
+    governanceMultisig,
+    deployer,
+  );
 
-    // Transfer AmoManager roles
-    await transferAmoManagerRoles(
-      hre,
-      amoManagerId,
-      deployerSigner,
-      governanceMultisig,
-      deployer,
-    );
+  // Transfer CollateralVault roles
+  await transferCollateralVaultRoles(
+    hre,
+    collateralVaultContractId,
+    deployerSigner,
+    governanceMultisig,
+    deployer,
+  );
 
-    // Transfer CollateralVault roles
-    await transferCollateralVaultRoles(
-      hre,
-      collateralVaultContractId,
-      deployerSigner,
-      governanceMultisig,
-      deployer,
-    );
-
-    console.log(`✅ Completed ${dStableName} role transfers`);
-  }
+  console.log(`✅ Completed ${dStableName} role transfers`);
 
   console.log(`\n🔑 ${__filename.split("/").slice(-2).join("/")}: ✅ Done\n`);
 
@@ -290,18 +287,18 @@ async function transferIssuerRoles(
 }
 
 /**
- * Transfer roles from deployer to governance multisig for the redeemer contract
+ * Transfer roles from deployer to governance multisig for the redeemer with fees contract
  *
  * @param hre Hardhat Runtime Environment
- * @param redeemerContractId The ID of the redeemer contract
+ * @param redeemerWithFeesContractId The ID of the redeemer with fees contract
  * @param deployerSigner The signer for the deployer account
  * @param governanceMultisig The address of the governance multisig
  * @param deployer The address of the deployer account
  * @returns Promise that resolves to true when all roles are transferred
  */
-async function transferRedeemerRoles(
+async function transferRedeemerWithFeesRoles(
   hre: HardhatRuntimeEnvironment,
-  redeemerContractId: string,
+  redeemerWithFeesContractId: string,
   deployerSigner: Signer,
   governanceMultisig: string,
   deployer: string,
@@ -309,30 +306,30 @@ async function transferRedeemerRoles(
   const { deployments, ethers } = hre;
 
   try {
-    const redeemerDeployment = await deployments.getOrNull(redeemerContractId);
+    const redeemerWithFeesDeployment = await deployments.getOrNull(redeemerWithFeesContractId);
 
-    if (redeemerDeployment) {
-      console.log(`\n  📄 REDEEMER ROLES: ${redeemerContractId}`);
+    if (redeemerWithFeesDeployment) {
+      console.log(`\n  📄 REDEEMER WITH FEES ROLES: ${redeemerWithFeesContractId}`);
 
-      const redeemerContract = await ethers.getContractAt(
-        "Redeemer",
-        redeemerDeployment.address,
+      const redeemerWithFeesContract = await ethers.getContractAt(
+        "RedeemerWithFees",
+        redeemerWithFeesDeployment.address,
         deployerSigner,
       );
 
       // Get roles
       const DEFAULT_ADMIN_ROLE = ZERO_BYTES_32;
       const REDEMPTION_MANAGER_ROLE =
-        await redeemerContract.REDEMPTION_MANAGER_ROLE();
+        await redeemerWithFeesContract.REDEMPTION_MANAGER_ROLE();
 
       // Grant roles to multisig
       if (
-        !(await redeemerContract.hasRole(
+        !(await redeemerWithFeesContract.hasRole(
           DEFAULT_ADMIN_ROLE,
           governanceMultisig,
         ))
       ) {
-        await redeemerContract.grantRole(
+        await redeemerWithFeesContract.grantRole(
           DEFAULT_ADMIN_ROLE,
           governanceMultisig,
         );
@@ -346,12 +343,12 @@ async function transferRedeemerRoles(
       }
 
       if (
-        !(await redeemerContract.hasRole(
+        !(await redeemerWithFeesContract.hasRole(
           REDEMPTION_MANAGER_ROLE,
           governanceMultisig,
         ))
       ) {
-        await redeemerContract.grantRole(
+        await redeemerWithFeesContract.grantRole(
           REDEMPTION_MANAGER_ROLE,
           governanceMultisig,
         );
@@ -365,26 +362,26 @@ async function transferRedeemerRoles(
       }
 
       // Revoke non-admin roles from deployer first
-      if (await redeemerContract.hasRole(REDEMPTION_MANAGER_ROLE, deployer)) {
-        await redeemerContract.revokeRole(REDEMPTION_MANAGER_ROLE, deployer);
+      if (await redeemerWithFeesContract.hasRole(REDEMPTION_MANAGER_ROLE, deployer)) {
+        await redeemerWithFeesContract.revokeRole(REDEMPTION_MANAGER_ROLE, deployer);
         console.log(`    ➖ Revoked REDEMPTION_MANAGER_ROLE from deployer`);
       }
 
       // Revoke DEFAULT_ADMIN_ROLE last
-      if (await redeemerContract.hasRole(DEFAULT_ADMIN_ROLE, deployer)) {
-        await redeemerContract.revokeRole(DEFAULT_ADMIN_ROLE, deployer);
+      if (await redeemerWithFeesContract.hasRole(DEFAULT_ADMIN_ROLE, deployer)) {
+        await redeemerWithFeesContract.revokeRole(DEFAULT_ADMIN_ROLE, deployer);
         console.log(`    ➖ Revoked DEFAULT_ADMIN_ROLE from deployer`);
       }
 
-      console.log(`    ✅ Completed Redeemer role transfers`);
+      console.log(`    ✅ Completed RedeemerWithFees role transfers`);
     } else {
       console.log(
-        `  ⚠️ ${redeemerContractId} not deployed, skipping role transfer`,
+        `  ⚠️ ${redeemerWithFeesContractId} not deployed, skipping role transfer`,
       );
     }
   } catch (error) {
     console.error(
-      `  ❌ Failed to transfer ${redeemerContractId} roles: ${error}`,
+      `  ❌ Failed to transfer ${redeemerWithFeesContractId} roles: ${error}`,
     );
   }
 

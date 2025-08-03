@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to extract oracle addresses from deployment files
-# Searches for files containing "Redstone", "API3", and "Chainlink" in their names
+# Searches for files containing "API3", and "Chainlink" in their names
 # and extracts the address field from each deployment JSON
 # Excludes files with "Mock" in their names
 
@@ -111,19 +111,13 @@ for i in "${!networks[@]}"; do
     echo "  $network_name: {"
     
     # Collect addresses for each oracle type
-    redstone_addresses=($(collect_addresses "$network_dir" "Redstone"))
     api3_addresses=($(collect_addresses "$network_dir" "API3"))
-    # Exclude Redstone wrappers and Factory contracts from Chainlink category
-    chainlink_addresses=($(collect_addresses "$network_dir" "Chainlink" "Redstone" "Factory"))
+    # Exclude Factory contracts from Chainlink category
+    chainlink_addresses=($(collect_addresses "$network_dir" "Chainlink" "Factory"))
     curve_api3_addresses=($(collect_addresses "$network_dir" "CurveAPI3"))
     hard_peg_oracle_addresses=($(collect_addresses "$network_dir" "HardPegOracle"))
     
     # Format and output
-    echo -n "    Redstone: "
-    format_addresses "${redstone_addresses[@]}"
-    echo -n ","
-    echo ""
-
     echo -n "    API3: "
     format_addresses "${api3_addresses[@]}"
     echo -n ","

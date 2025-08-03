@@ -9,7 +9,7 @@ import {
   Issuer,
   MockAmoVault,
   OracleAggregator,
-  Redeemer,
+  RedeemerWithFees,
   TestERC20,
   TestMintableERC20,
 } from "../../typechain-types";
@@ -21,19 +21,18 @@ import {
 } from "../../typescript/token/utils";
 import {
   createDStableAmoFixture,
-  DS_CONFIG,
   DStableFixtureConfig,
   DUSD_CONFIG,
 } from "./fixtures";
 
 // Run tests for each dStable configuration
-const dstableConfigs: DStableFixtureConfig[] = [DUSD_CONFIG, DS_CONFIG];
+const dstableConfigs: DStableFixtureConfig[] = [DUSD_CONFIG];
 
 dstableConfigs.forEach((config) => {
   describe(`${config.symbol} Ecosystem Lifecycle`, () => {
     let amoManagerContract: AmoManager;
     let issuerContract: Issuer;
-    let redeemerContract: Redeemer;
+    let redeemerContract: RedeemerWithFees;
     let collateralHolderVaultContract: CollateralHolderVault;
     let oracleAggregatorContract: OracleAggregator;
     let mockAmoVaultContract: MockAmoVault;
@@ -70,7 +69,7 @@ dstableConfigs.forEach((config) => {
         await hre.deployments.get(config.redeemerContractId)
       ).address;
       redeemerContract = await hre.ethers.getContractAt(
-        "Redeemer",
+        "RedeemerWithFees",
         redeemerAddress,
         await hre.ethers.getSigner(deployer),
       );

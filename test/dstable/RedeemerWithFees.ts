@@ -14,7 +14,6 @@ import {
 } from "../../typechain-types";
 import { ONE_HUNDRED_PERCENT_BPS } from "../../typescript/common/bps_constants";
 import {
-  DS_REDEEMER_WITH_FEES_CONTRACT_ID,
   DUSD_REDEEMER_WITH_FEES_CONTRACT_ID,
 } from "../../typescript/deploy-ids";
 import {
@@ -23,7 +22,6 @@ import {
 } from "../../typescript/token/utils";
 import {
   createDStableFixture,
-  DS_CONFIG,
   DStableFixtureConfig,
   DUSD_CONFIG,
 } from "./fixtures"; // Assuming fixtures.ts is in the same directory
@@ -76,7 +74,7 @@ export const createDStableWithRedeemerWithFeesFixture = (
 };
 
 // Run tests for each dStable configuration
-const dstableConfigs: DStableFixtureConfig[] = [DUSD_CONFIG, DS_CONFIG];
+const dstableConfigs: DStableFixtureConfig[] = [DUSD_CONFIG];
 
 dstableConfigs.forEach((config) => {
   describe(`RedeemerWithFees for ${config.symbol}`, () => {
@@ -118,18 +116,6 @@ dstableConfigs.forEach((config) => {
         configuredFeeReceiver = appConfig.dStables.dUSD.initialFeeReceiver;
         configuredDefaultFeeBps =
           appConfig.dStables.dUSD.initialRedemptionFeeBps;
-      } else if (config.symbol === "dS") {
-        if (
-          appConfig.dStables.dS?.initialFeeReceiver === undefined ||
-          appConfig.dStables.dS?.initialRedemptionFeeBps === undefined
-        ) {
-          throw new Error(
-            "dS initialFeeReceiver or initialRedemptionFeeBps is undefined in config",
-          );
-        }
-        redeemerWithFeesContractId = DS_REDEEMER_WITH_FEES_CONTRACT_ID;
-        configuredFeeReceiver = appConfig.dStables.dS.initialFeeReceiver;
-        configuredDefaultFeeBps = appConfig.dStables.dS.initialRedemptionFeeBps;
       } else {
         throw new Error(
           `Unsupported dStable symbol for RedeemerWithFees tests: ${config.symbol}`,
@@ -246,20 +232,6 @@ dstableConfigs.forEach((config) => {
           expectedFeeReceiver = appConfig.dStables.dUSD.initialFeeReceiver;
           expectedDefaultFeeBps = BigInt(
             appConfig.dStables.dUSD.initialRedemptionFeeBps,
-          );
-        } else if (config.symbol === "dS") {
-          // This part will be used when DS_CONFIG is added to dstableConfigs
-          if (
-            appConfig.dStables.dS?.initialFeeReceiver === undefined ||
-            appConfig.dStables.dS?.initialRedemptionFeeBps === undefined
-          ) {
-            throw new Error(
-              "dS initialFeeReceiver or initialRedemptionFeeBps is undefined in config for assertion",
-            );
-          }
-          expectedFeeReceiver = appConfig.dStables.dS.initialFeeReceiver;
-          expectedDefaultFeeBps = BigInt(
-            appConfig.dStables.dS.initialRedemptionFeeBps,
           );
         } else {
           throw new Error(`Unsupported dStable symbol: ${config.symbol}`);

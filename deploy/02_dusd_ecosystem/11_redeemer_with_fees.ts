@@ -171,8 +171,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   return true;
 };
 
-func.id = "deploy_redeemer_with_fees";
-func.tags = ["dstable", "redeemerWithFees"];
+func.id = "deploy_dusd_redeemer_with_fees";
+func.tags = ["dusd-ecosystem", "redeemerWithFees"];
 func.dependencies = [
   DUSD_TOKEN_ID,
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,

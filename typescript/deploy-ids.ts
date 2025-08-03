@@ -13,4 +13,3 @@ export const DUSD_REDEEMER_WITH_FEES_CONTRACT_ID = "dUSD_RedeemerWithFees";
 export const DUSD_COLLATERAL_VAULT_CONTRACT_ID = "dUSD_CollateralHolderVault";
 export const DUSD_AMO_MANAGER_ID = "dUSD_AmoManager";
 export const DUSD_HARD_PEG_ORACLE_WRAPPER_ID = "dUSD_HardPegOracleWrapper";
-

@@ -1,6 +1,5 @@
 import { Address } from "hardhat-deploy/types";
 
-
 export interface Config {
   readonly MOCK_ONLY?: MockConfig;
   readonly tokenAddresses: TokenAddresses;
@@ -33,7 +32,6 @@ export interface DStableConfig {
     [collateralAddress: string]: number;
   };
 }
-
 
 export interface TokenAddresses {
   readonly dUSD: string;
@@ -72,4 +70,3 @@ export interface OracleAggregatorConfig {
     };
   };
 }
-

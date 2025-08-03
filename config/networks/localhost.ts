@@ -2,9 +2,7 @@ import { ZeroAddress } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { ONE_PERCENT_BPS } from "../../typescript/common/bps_constants";
-import {
-  DUSD_TOKEN_ID,
-} from "../../typescript/deploy-ids";
+import { DUSD_TOKEN_ID } from "../../typescript/deploy-ids";
 import {
   ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
   ORACLE_AGGREGATOR_PRICE_DECIMALS,
@@ -28,7 +26,6 @@ export async function getConfig(
   const frxUSDDeployment = await _hre.deployments.getOrNull("frxUSD");
   const sfrxUSDDeployment = await _hre.deployments.getOrNull("sfrxUSD");
 
-
   // Get mock oracle deployments
   const mockOracleNameToAddress: Record<string, string> = {};
 
@@ -49,7 +46,7 @@ export async function getConfig(
   }
 
   // Get the named accounts
-  const { deployer, user1 } = await _hre.getNamedAccounts();
+  const { deployer } = await _hre.getNamedAccounts();
 
   return {
     MOCK_ONLY: {
@@ -122,10 +119,14 @@ export async function getConfig(
         baseCurrency: ZeroAddress,
         api3OracleAssets: {
           plainApi3OracleWrappers: {
-            [dUSDDeployment?.address || ""]: mockOracleNameToAddress["dUSD_USD"],
-            [USDCDeployment?.address || ""]: mockOracleNameToAddress["USDC_USD"],
-            [USDSDeployment?.address || ""]: mockOracleNameToAddress["USDS_USD"],
-            [frxUSDDeployment?.address || ""]: mockOracleNameToAddress["frxUSD_USD"],
+            [dUSDDeployment?.address || ""]:
+              mockOracleNameToAddress["dUSD_USD"],
+            [USDCDeployment?.address || ""]:
+              mockOracleNameToAddress["USDC_USD"],
+            [USDSDeployment?.address || ""]:
+              mockOracleNameToAddress["USDS_USD"],
+            [frxUSDDeployment?.address || ""]:
+              mockOracleNameToAddress["frxUSD_USD"],
           },
           api3OracleWrappersWithThresholding: {},
           compositeApi3OracleWrappersWithThresholding: {
@@ -141,7 +142,7 @@ export async function getConfig(
             },
             [sfrxUSDDeployment?.address || ""]: {
               feedAsset: sfrxUSDDeployment?.address || "",
-              proxy1: mockOracleNameToAddress["frxUSD_USD"], // frxUSD/USD  
+              proxy1: mockOracleNameToAddress["frxUSD_USD"], // frxUSD/USD
               proxy2: mockOracleNameToAddress["sfrxUSD_frxUSD"], // sfrxUSD/frxUSD rate
               lowerThresholdInBase1: 0n,
               fixedPriceInBase1: 0n,

@@ -306,10 +306,14 @@ async function transferRedeemerWithFeesRoles(
   const { deployments, ethers } = hre;
 
   try {
-    const redeemerWithFeesDeployment = await deployments.getOrNull(redeemerWithFeesContractId);
+    const redeemerWithFeesDeployment = await deployments.getOrNull(
+      redeemerWithFeesContractId,
+    );
 
     if (redeemerWithFeesDeployment) {
-      console.log(`\n  📄 REDEEMER WITH FEES ROLES: ${redeemerWithFeesContractId}`);
+      console.log(
+        `\n  📄 REDEEMER WITH FEES ROLES: ${redeemerWithFeesContractId}`,
+      );
 
       const redeemerWithFeesContract = await ethers.getContractAt(
         "RedeemerWithFees",
@@ -362,13 +366,23 @@ async function transferRedeemerWithFeesRoles(
       }
 
       // Revoke non-admin roles from deployer first
-      if (await redeemerWithFeesContract.hasRole(REDEMPTION_MANAGER_ROLE, deployer)) {
-        await redeemerWithFeesContract.revokeRole(REDEMPTION_MANAGER_ROLE, deployer);
+      if (
+        await redeemerWithFeesContract.hasRole(
+          REDEMPTION_MANAGER_ROLE,
+          deployer,
+        )
+      ) {
+        await redeemerWithFeesContract.revokeRole(
+          REDEMPTION_MANAGER_ROLE,
+          deployer,
+        );
         console.log(`    ➖ Revoked REDEMPTION_MANAGER_ROLE from deployer`);
       }
 
       // Revoke DEFAULT_ADMIN_ROLE last
-      if (await redeemerWithFeesContract.hasRole(DEFAULT_ADMIN_ROLE, deployer)) {
+      if (
+        await redeemerWithFeesContract.hasRole(DEFAULT_ADMIN_ROLE, deployer)
+      ) {
         await redeemerWithFeesContract.revokeRole(DEFAULT_ADMIN_ROLE, deployer);
         console.log(`    ➖ Revoked DEFAULT_ADMIN_ROLE from deployer`);
       }

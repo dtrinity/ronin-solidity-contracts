@@ -2,13 +2,8 @@ import { ZeroAddress } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { ONE_PERCENT_BPS } from "../../typescript/common/bps_constants";
-import {
-  DUSD_TOKEN_ID,
-} from "../../typescript/deploy-ids";
-import {
-  ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
-  ORACLE_AGGREGATOR_PRICE_DECIMALS,
-} from "../../typescript/oracle_aggregator/constants";
+import { DUSD_TOKEN_ID } from "../../typescript/deploy-ids";
+import { ORACLE_AGGREGATOR_PRICE_DECIMALS } from "../../typescript/oracle_aggregator/constants";
 import { Config } from "../types";
 
 /**
@@ -47,7 +42,8 @@ export async function getConfig(
         priceDecimals: ORACLE_AGGREGATOR_PRICE_DECIMALS,
         api3OracleAssets: {
           plainApi3OracleWrappers: {
-            [dUSDDeployment?.address || ""]: "0x0000000000000000000000000000000000000000", // TODO: Add API3 dUSD/USD feed address
+            [dUSDDeployment?.address || ""]:
+              "0x0000000000000000000000000000000000000000", // TODO: Add API3 dUSD/USD feed address
           },
           api3OracleWrappersWithThresholding: {},
           compositeApi3OracleWrappersWithThresholding: {},

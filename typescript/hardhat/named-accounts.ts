@@ -1,3 +1,4 @@
+/* eslint-disable camelcase -- Network names in snake_case */
 import { ethers } from "ethers";
 
 /**
@@ -30,7 +31,7 @@ export function getEnvPrivateKeys(network: string): string[] {
   pks = pks.filter(
     (pk) =>
       pk !==
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
 
   if (pks.length === 0) {
@@ -131,3 +132,4 @@ export function getStandardNamedAccounts(): {
     },
   };
 }
+/* eslint-enable camelcase -- Done with network config */

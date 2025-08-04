@@ -1,3 +1,4 @@
+/* eslint-disable camelcase -- Network names in snake_case */
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-chai-matchers";
@@ -119,3 +120,4 @@ const config: HardhatUserConfig = {
 };
 
 export default config;
+/* eslint-enable camelcase -- Done with network config */

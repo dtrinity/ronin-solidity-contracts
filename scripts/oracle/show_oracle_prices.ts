@@ -5,8 +5,8 @@ import path from "path";
  * Utility script: prints latest prices for all on-chain oracle deployments on a given Hardhat network.
  *
  * Usage examples:
- *   yarn hardhat run --network ronin scripts/oracle/show_oracle_prices.ts
- *   yarn hardhat run --network saigon scripts/oracle/show_oracle_prices.ts
+ *   yarn hardhat run --network ronin_mainnet scripts/oracle/show_oracle_prices.ts
+ *   yarn hardhat run --network ronin_testnet scripts/oracle/show_oracle_prices.ts
  *
  * The script walks the hardhat-deploy deployments directory for the selected network, tries to
  * attach the minimal Chainlink AggregatorV3 interface and prints {name, description, price, updatedAt}.

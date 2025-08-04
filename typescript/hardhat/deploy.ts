@@ -9,13 +9,13 @@ export function isLocalNetwork(network: string): boolean {
 }
 
 /**
- * Check if the network is saigon (Ronin testnet)
+ * Check if the network is Ronin testnet
  *
  * @param network - The network name
- * @returns True if the network is saigon, false otherwise
+ * @returns True if the network is Ronin testnet, false otherwise
  */
 export function isSaigon(network: string): boolean {
-  return network === "saigon";
+  return network === "ronin_testnet";
 }
 
 /**
@@ -25,5 +25,5 @@ export function isSaigon(network: string): boolean {
  * @returns True if the network is ronin mainnet, false otherwise
  */
 export function isMainnet(network: string): boolean {
-  return network === "ronin";
+  return network === "ronin_mainnet";
 }

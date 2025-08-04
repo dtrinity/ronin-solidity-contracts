@@ -52,7 +52,7 @@ const config: HardhatUserConfig = {
       deploy: ["deploy-mocks", "deploy"],
       saveDeployments: true,
     },
-    saigon: {
+    ronin_testnet: {
       // https://docs.roninchain.com/
       url: `https://saigon-testnet.roninchain.com/rpc`,
       chainId: 2021,
@@ -60,7 +60,7 @@ const config: HardhatUserConfig = {
       saveDeployments: true,
       accounts: getEnvPrivateKeys("ronin_testnet"),
     },
-    ronin: {
+    ronin_mainnet: {
       url: `https://api.roninchain.com/rpc`,
       chainId: 2020,
       deploy: ["deploy"], // NOTE: DO NOT DEPLOY mocks
@@ -90,12 +90,12 @@ const config: HardhatUserConfig = {
   etherscan: {
     // Used for verifying single contracts when hardhat-deploy auto verify doesn't work
     apiKey: {
-      ronin: "not-needed", // Ronin uses Sourcify for verification
-      saigon: "not-needed", // Ronin uses Sourcify for verification
+      ronin_mainnet: "not-needed", // Ronin uses Sourcify for verification
+      ronin_testnet: "not-needed", // Ronin uses Sourcify for verification
     },
     customChains: [
       {
-        network: "ronin",
+        network: "ronin_mainnet",
         chainId: 2020,
         urls: {
           apiURL: "https://sourcify.roninchain.com/server",
@@ -103,7 +103,7 @@ const config: HardhatUserConfig = {
         },
       },
       {
-        network: "saigon",
+        network: "ronin_testnet",
         chainId: 2021,
         urls: {
           apiURL: "https://sourcify.roninchain.com/server",

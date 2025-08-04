@@ -15,9 +15,9 @@ export async function getConfig(
   hre: HardhatRuntimeEnvironment,
 ): Promise<Config> {
   switch (hre.network.name) {
-    case "saigon":
+    case "ronin_testnet":
       return getRoninTestNetConfig(hre);
-    case "ronin":
+    case "ronin_mainnet":
       return getRoninMainNetConfig(hre);
     case "hardhat":
     case "localhost":

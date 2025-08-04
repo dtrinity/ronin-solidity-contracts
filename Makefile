@@ -132,13 +132,13 @@ clean-deployments: ## Clean the deployments for a given network which matches at
 ## Block explorer ##
 ####################
 
-explorer.verify.saigon:
+explorer.verify.ronin_testnet:
 	@echo "Verifying contracts on Ronin testnet (Saigon)..."
-	@yarn hardhat --network saigon etherscan-verify
+	@yarn hardhat --network ronin_testnet etherscan-verify
 
-explorer.verify.ronin:
+explorer.verify.ronin_mainnet:
 	@echo "Verifying contracts on Ronin mainnet..."
-	@yarn hardhat --network ronin etherscan-verify
+	@yarn hardhat --network ronin_mainnet etherscan-verify
 
 ##############
 ## Building ##

@@ -105,8 +105,8 @@ export function getStandardNamedAccounts(): {
     deployer: {
       hardhat: 0,
       localhost: 0,
-      saigon: 0,
-      ronin: 0,
+      ronin_testnet: 0,
+      ronin_mainnet: 0,
     },
     // For testing ONLY
     user1: {

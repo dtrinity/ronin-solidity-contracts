@@ -1,0 +1,57 @@
+{
+  "address": "0xb459960891Ec9fF8736039F5bAE1897223214C18",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "version",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xdfd73784a9b3496e94a3e2edc770815e77b241e014297541dac424cf5591e141",
+  "receipt": {
+    "to": null,
+    "from": "0xd2f775Ff2cD41bfe43C7A8c016eD10393553fe44",
+    "contractAddress": "0xb459960891Ec9fF8736039F5bAE1897223214C18",
+    "transactionIndex": 1,
+    "gasUsed": "101401",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x5e2dffdb890f18106d777e6d0146ac1d2e69799d294fcd9823acf0c77bd7f7a2",
+    "transactionHash": "0xdfd73784a9b3496e94a3e2edc770815e77b241e014297541dac424cf5591e141",
+    "logs": [],
+    "blockNumber": 40184439,
+    "cumulativeGasUsed": "673254",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "f062e116600226a746c448b46c18a903",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.22+commit.4fc1097e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"version\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"This is just a placeholder contract to simulate the API3 server on mainnet\",\"kind\":\"dev\",\"methods\":{},\"title\":\"MockAPI3ServerV1\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"A simple mock of the API3 server V1 for testing purposes\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/testing/oracle/MockAPI3ServerV1.sol\":\"MockAPI3ServerV1\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/testing/oracle/MockAPI3ServerV1.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n/* \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014 *\\n *    _____     ______   ______     __     __   __     __     ______   __  __       *\\n *   /\\\\  __-.  /\\\\__  _\\\\ /\\\\  == \\\\   /\\\\ \\\\   /\\\\ \\\"-.\\\\ \\\\   /\\\\ \\\\   /\\\\__  _\\\\ /\\\\ \\\\_\\\\ \\\\      *\\n *   \\\\ \\\\ \\\\/\\\\ \\\\ \\\\/_/\\\\ \\\\/ \\\\ \\\\  __<   \\\\ \\\\ \\\\  \\\\ \\\\ \\\\-.  \\\\  \\\\ \\\\ \\\\  \\\\/_/\\\\ \\\\/ \\\\ \\\\____ \\\\     *\\n *    \\\\ \\\\____-    \\\\ \\\\_\\\\  \\\\ \\\\_\\\\ \\\\_\\\\  \\\\ \\\\_\\\\  \\\\ \\\\_\\\\\\\\\\\"\\\\_\\\\  \\\\ \\\\_\\\\    \\\\ \\\\_\\\\  \\\\/\\\\_____\\\\    *\\n *     \\\\/____/     \\\\/_/   \\\\/_/ /_/   \\\\/_/   \\\\/_/ \\\\/_/   \\\\/_/     \\\\/_/   \\\\/_____/    *\\n *                                                                                  *\\n * \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014 dtrinity.org \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014 *\\n *                                                                                  *\\n *                                         \\u25b2                                        *\\n *                                        \\u25b2 \\u25b2                                       *\\n *                                                                                  *\\n * \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014 *\\n * dTRINITY Protocol: https://github.com/dtrinity                                   *\\n * \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014 */\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @title MockAPI3ServerV1\\n * @notice A simple mock of the API3 server V1 for testing purposes\\n * @dev This is just a placeholder contract to simulate the API3 server on mainnet\\n */\\ncontract MockAPI3ServerV1 {\\n    // This is just a placeholder contract\\n    // The actual API3 server has many functions, but we don't need them for our tests\\n\\n    // This function is just to make sure the contract can be deployed\\n    function version() external pure returns (string memory) {\\n        return \\\"1.0.0\\\";\\n    }\\n}\\n\",\"keccak256\":\"0x18e5c74994357aae48b3a4b892ce39a7540c86bebd4bdd37889779ad04840544\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060de8061001f6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c806354fd4d5014602d575b600080fd5b60408051808201825260058152640312e302e360dc1b6020820152905160529190605b565b60405180910390f35b60006020808352835180602085015260005b81811015608757858101830151858201604001528201606d565b506000604082860101526040601f19601f830116850101925050509291505056fea2646970667358221220710316a370efadf85a5984b773720da2d85531aa354fe4c66be0dbed7c8ea81964736f6c63430008160033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806354fd4d5014602d575b600080fd5b60408051808201825260058152640312e302e360dc1b6020820152905160529190605b565b60405180910390f35b60006020808352835180602085015260005b81811015608757858101830151858201604001528201606d565b506000604082860101526040601f19601f830116850101925050509291505056fea2646970667358221220710316a370efadf85a5984b773720da2d85531aa354fe4c66be0dbed7c8ea81964736f6c63430008160033",
+  "devdoc": {
+    "details": "This is just a placeholder contract to simulate the API3 server on mainnet",
+    "kind": "dev",
+    "methods": {},
+    "title": "MockAPI3ServerV1",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "notice": "A simple mock of the API3 server V1 for testing purposes",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

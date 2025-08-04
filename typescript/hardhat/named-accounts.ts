@@ -1,3 +1,4 @@
+/* eslint-disable camelcase -- Network names in snake_case */
 import { ethers } from "ethers";
 
 /**
@@ -10,13 +11,13 @@ export function getEnvPrivateKeys(network: string): string[] {
   let pks: string[] = [];
 
   switch (network) {
-    case "sonic_testnet":
+    case "ronin_testnet":
       pks = [
         getPrivateKeyFromMnemonic(`testnet_deployer`),
         getPrivateKeyFromEnv(`testnet_deployer`),
       ];
       break;
-    case "sonic_mainnet":
+    case "ronin_mainnet":
       pks = [
         getPrivateKeyFromMnemonic(`mainnet_deployer`),
         getPrivateKeyFromEnv(`mainnet_deployer`),
@@ -30,7 +31,7 @@ export function getEnvPrivateKeys(network: string): string[] {
   pks = pks.filter(
     (pk) =>
       pk !==
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000000000000000000000000000"
   );
 
   if (pks.length === 0) {
@@ -101,13 +102,12 @@ export function getStandardNamedAccounts(): {
       };
 } {
   return {
-    /* eslint-disable camelcase -- Use camelcase for network config  */
     // Standard accounts
     deployer: {
       hardhat: 0,
       localhost: 0,
-      sonic_testnet: 0,
-      sonic_mainnet: 0,
+      ronin_testnet: 0,
+      ronin_mainnet: 0,
     },
     // For testing ONLY
     user1: {
@@ -130,6 +130,6 @@ export function getStandardNamedAccounts(): {
       hardhat: 5,
       localhost: 5,
     },
-    /* eslint-enable camelcase -- Use camelcase for network config */
   };
 }
+/* eslint-enable camelcase -- Done with network config */

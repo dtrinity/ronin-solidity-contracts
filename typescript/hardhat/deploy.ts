@@ -9,21 +9,21 @@ export function isLocalNetwork(network: string): boolean {
 }
 
 /**
- * Check if the network is sonic_testnet
+ * Check if the network is Ronin testnet
  *
  * @param network - The network name
- * @returns True if the network is sonic_testnet, false otherwise
+ * @returns True if the network is Ronin testnet, false otherwise
  */
-export function isSonicTestnet(network: string): boolean {
-  return network === "sonic_testnet";
+export function isRoninTestnet(network: string): boolean {
+  return network === "ronin_testnet";
 }
 
 /**
- * Check if the network is mainnet
+ * Check if the network is ronin mainnet
  *
  * @param network - The network name
- * @returns True if the network is mainnet, false otherwise
+ * @returns True if the network is ronin mainnet, false otherwise
  */
 export function isMainnet(network: string): boolean {
-  return network === "sonic_mainnet";
+  return network === "ronin_mainnet";
 }

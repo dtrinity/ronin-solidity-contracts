@@ -1,0 +1,20 @@
+{
+  "address": "0x0000000000000000000000000000000000000000",
+  "abi": [],
+  "numDeployments": 1,
+  "linkedData": {
+    "dUSD_USD": "API3",
+    "frxUSD_USD": "API3",
+    "USDC_USD": "API3",
+    "USDS_USD": "API3",
+    "wS_USD": "API3",
+    "scUSD_USD": "API3",
+    "sfrxUSD_frxUSD": "API3",
+    "sUSDS_USDS": "API3",
+    "wstkscUSD_scUSD": "API3",
+    "wOS_OS": "API3",
+    "stS_S": "API3",
+    "OS_S": "API3",
+    "wOS_S": "API3"
+  }
+}

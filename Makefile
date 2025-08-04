@@ -132,13 +132,13 @@ clean-deployments: ## Clean the deployments for a given network which matches at
 ## Block explorer ##
 ####################
 
-explorer.verify.sonic_testnet:
-	@echo "Verifying contracts on sonic testnet..."
-	@yarn hardhat --network sonic_testnet etherscan-verify --api-key 4EJCRRD3JKIE6TKF6ME7AKVYWFEJI79A26 --api-url https://api-testnet.sonicscan.org
+explorer.verify.ronin_testnet:
+	@echo "Verifying contracts on Ronin testnet..."
+	@yarn hardhat --network ronin_testnet etherscan-verify
 
-explorer.verify.sonic_mainnet:
-	@echo "Verifying contracts on sonic mainnet..."
-	@yarn hardhat --network sonic_mainnet etherscan-verify --api-key 4EJCRRD3JKIE6TKF6ME7AKVYWFEJI79A26 --api-url https://api.sonicscan.org
+explorer.verify.ronin_mainnet:
+	@echo "Verifying contracts on Ronin mainnet..."
+	@yarn hardhat --network ronin_mainnet etherscan-verify
 
 ##############
 ## Building ##

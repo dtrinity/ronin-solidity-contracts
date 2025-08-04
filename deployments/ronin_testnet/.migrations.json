@@ -1,0 +1,20 @@
+{
+  "local_token_setup": 1754302457,
+  "local_oracle_setup": 1754302733,
+  "local_curve_pools_setup": 1754302733,
+  "dUSD": 1754302766,
+  "setup-usd-api3-oracle-wrappers": 1754302857,
+  "deploy-usd-oracle-aggregator": 1754302870,
+  "point-usd-aggregator-to-api3-wrappers": 1754302923,
+  "dUSD_HardPegOracleWrapper": 1754302944,
+  "dUSD_CollateralHolderVault": 1754302955,
+  "dUSD_AmoManager": 1754302967,
+  "dUSD_Issuer": 1754302986,
+  "deploy_dusd_redeemer_with_fees": 1754303008,
+  "dusd-whitelist-collateral": 1754303059,
+  "point-usd-oracle-aggregator-for-usd": 1754303067,
+  "transfer_dstable_roles_to_multisig": 1754303067,
+  "transfer_oracle_roles_to_multisig": 1754303067,
+  "transfer_oracle_wrapper_roles_to_multisig": 1754303067,
+  "deploy_redeemer_with_fees": 1754303071
+}

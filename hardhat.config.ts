@@ -10,7 +10,6 @@ import { HardhatUserConfig } from "hardhat/config";
 
 import { getEnvPrivateKeys } from "./typescript/hardhat/named-accounts";
 
-/* eslint-disable camelcase -- Network names follow specific naming conventions that require snake_case */
 const config: HardhatUserConfig = {
   //
   // Compile settings -------------------------------------------------------
@@ -53,18 +52,20 @@ const config: HardhatUserConfig = {
       deploy: ["deploy-mocks", "deploy"],
       saveDeployments: true,
     },
-    sonic_testnet: {
-      // https://docs.soniclabs.com/sonic/build-on-sonic/getting-started
-      url: `https://rpc.blaze.soniclabs.com`,
+    saigon: {
+      // https://docs.roninchain.com/
+      url: `https://saigon-testnet.roninchain.com/rpc`,
+      chainId: 2021,
       deploy: ["deploy-mocks", "deploy"],
       saveDeployments: true,
-      accounts: getEnvPrivateKeys("sonic_testnet"),
+      accounts: getEnvPrivateKeys("ronin_testnet"),
     },
-    sonic_mainnet: {
-      url: `https://rpc.soniclabs.com`,
+    ronin: {
+      url: `https://api.roninchain.com/rpc`,
+      chainId: 2020,
       deploy: ["deploy"], // NOTE: DO NOT DEPLOY mocks
       saveDeployments: true,
-      accounts: getEnvPrivateKeys("sonic_mainnet"),
+      accounts: getEnvPrivateKeys("ronin_mainnet"),
     },
   },
   namedAccounts: {
@@ -89,15 +90,24 @@ const config: HardhatUserConfig = {
   etherscan: {
     // Used for verifying single contracts when hardhat-deploy auto verify doesn't work
     apiKey: {
-      sonic_mainnet: "4EJCRRD3JKIE6TKF6ME7AKVYWFEJI79A26",
+      ronin: "not-needed", // Ronin uses Sourcify for verification
+      saigon: "not-needed", // Ronin uses Sourcify for verification
     },
     customChains: [
       {
-        network: "sonic_mainnet",
-        chainId: 146,
+        network: "ronin",
+        chainId: 2020,
         urls: {
-          apiURL: "https://api.sonicscan.org/api",
-          browserURL: "https://sonicscan.org",
+          apiURL: "https://sourcify.roninchain.com/server",
+          browserURL: "https://app.roninchain.com",
+        },
+      },
+      {
+        network: "saigon",
+        chainId: 2021,
+        urls: {
+          apiURL: "https://sourcify.roninchain.com/server",
+          browserURL: "https://app.roninchain.com",
         },
       },
     ],
@@ -107,6 +117,5 @@ const config: HardhatUserConfig = {
     enabled: false,
   },
 };
-/* eslint-enable camelcase -- Re-enabling camelcase rule after network definitions */
 
 export default config;

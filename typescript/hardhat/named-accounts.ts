@@ -10,13 +10,13 @@ export function getEnvPrivateKeys(network: string): string[] {
   let pks: string[] = [];
 
   switch (network) {
-    case "sonic_testnet":
+    case "ronin_testnet":
       pks = [
         getPrivateKeyFromMnemonic(`testnet_deployer`),
         getPrivateKeyFromEnv(`testnet_deployer`),
       ];
       break;
-    case "sonic_mainnet":
+    case "ronin_mainnet":
       pks = [
         getPrivateKeyFromMnemonic(`mainnet_deployer`),
         getPrivateKeyFromEnv(`mainnet_deployer`),
@@ -101,13 +101,12 @@ export function getStandardNamedAccounts(): {
       };
 } {
   return {
-    /* eslint-disable camelcase -- Use camelcase for network config  */
     // Standard accounts
     deployer: {
       hardhat: 0,
       localhost: 0,
-      sonic_testnet: 0,
-      sonic_mainnet: 0,
+      saigon: 0,
+      ronin: 0,
     },
     // For testing ONLY
     user1: {
@@ -130,6 +129,5 @@ export function getStandardNamedAccounts(): {
       hardhat: 5,
       localhost: 5,
     },
-    /* eslint-enable camelcase -- Use camelcase for network config */
   };
 }

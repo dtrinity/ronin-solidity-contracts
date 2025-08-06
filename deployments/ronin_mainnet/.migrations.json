@@ -1,0 +1,16 @@
+{
+  "dUSD": 1754448484,
+  "setup-usd-api3-oracle-wrappers": 1754448563,
+  "deploy-usd-oracle-aggregator": 1754448573,
+  "point-usd-aggregator-to-api3-wrappers": 1754448581,
+  "dUSD_HardPegOracleWrapper": 1754448600,
+  "dUSD_CollateralHolderVault": 1754448610,
+  "dUSD_AmoManager": 1754448621,
+  "dUSD_Issuer": 1754448652,
+  "deploy_dusd_redeemer_with_fees": 1754448690,
+  "dusd-whitelist-collateral": 1754448699,
+  "deploy_redeemer_with_fees": 1754448702,
+  "transfer_dstable_roles_to_multisig": 1754448981,
+  "transfer_oracle_roles_to_multisig": 1754449017,
+  "transfer_oracle_wrapper_roles_to_multisig": 1754449128
+}

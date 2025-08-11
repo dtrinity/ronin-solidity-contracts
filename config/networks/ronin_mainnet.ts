@@ -3,7 +3,10 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { ONE_PERCENT_BPS } from "../../typescript/common/bps_constants";
 import { DUSD_TOKEN_ID } from "../../typescript/deploy-ids";
-import { ORACLE_AGGREGATOR_PRICE_DECIMALS } from "../../typescript/oracle_aggregator/constants";
+import {
+  ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
+  ORACLE_AGGREGATOR_PRICE_DECIMALS,
+} from "../../typescript/oracle_aggregator/constants";
 import { Config } from "../types";
 
 /**
@@ -13,11 +16,15 @@ import { Config } from "../types";
  * @returns The configuration for the network
  */
 export async function getConfig(
-  _hre: HardhatRuntimeEnvironment,
+  _hre: HardhatRuntimeEnvironment
 ): Promise<Config> {
   const dUSDDeployment = await _hre.deployments.getOrNull(DUSD_TOKEN_ID);
 
-  const governanceSafeMultisig = "0xE83c188a7BE46B90715C757A06cF917175f30262";
+  // Token addresses
+  const USDC_ADDRESS = "0x0b7007c13325c48911f73a2dad5fa5dcbf808adc";
+
+  // Safe wallet on Ronin mainnet
+  const governanceSafeMultisig = "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf";
 
   return {
     tokenAddresses: {
@@ -28,7 +35,7 @@ export async function getConfig(
     },
     dStables: {
       dUSD: {
-        collaterals: [],
+        collaterals: [USDC_ADDRESS],
         initialFeeReceiver: governanceSafeMultisig,
         initialRedemptionFeeBps: 0.4 * ONE_PERCENT_BPS,
         collateralRedemptionFees: {},
@@ -36,15 +43,18 @@ export async function getConfig(
     },
     oracleAggregators: {
       USD: {
-        baseCurrency: ZeroAddress,
-        hardDStablePeg: 10n ** BigInt(ORACLE_AGGREGATOR_PRICE_DECIMALS),
+        baseCurrency: ZeroAddress, // USD
+        hardDStablePeg: ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
         priceDecimals: ORACLE_AGGREGATOR_PRICE_DECIMALS,
         api3OracleAssets: {
-          plainApi3OracleWrappers: {
-            [dUSDDeployment?.address || ""]:
-              "0x0000000000000000000000000000000000000000", // TODO: Add API3 dUSD/USD feed address
+          plainApi3OracleWrappers: {},
+          api3OracleWrappersWithThresholding: {
+            [USDC_ADDRESS]: {
+              proxy: "0xf061d556F5136263c4d66d9fFCADE8Ab43a3a704", // Add API3 USDC/USD
+              lowerThreshold: ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
+              fixedPrice: ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
+            },
           },
-          api3OracleWrappersWithThresholding: {},
           compositeApi3OracleWrappersWithThresholding: {},
         },
       },

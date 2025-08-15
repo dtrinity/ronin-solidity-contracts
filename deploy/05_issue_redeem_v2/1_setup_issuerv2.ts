@@ -274,7 +274,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   return true;
 };
 
-func.id = "1_setup_issuerv2";
+func.id = "05_1_setup_issuerv2";
 func.tags = ["setup-issuerv2"];
 func.dependencies = [
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,

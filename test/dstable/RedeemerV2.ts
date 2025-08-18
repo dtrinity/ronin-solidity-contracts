@@ -161,6 +161,20 @@ dstableConfigs.forEach((config) => {
           "default fee bps should be zero by default"
         );
       });
+
+      it("revokes withdrawer role from legacy RedeemerWithFees", async function () {
+        const withRole = await collateralVault.COLLATERAL_WITHDRAWER_ROLE();
+        const legacyId = "dUSD_RedeemerWithFees";
+
+        const dep = await hre.deployments.getOrNull(legacyId);
+        if (!dep) return; // Skip if legacy contract doesn't exist
+        
+        const has = await collateralVault.hasRole(withRole, dep.address);
+        expect(has).to.equal(
+          false,
+          `${legacyId} should not retain withdrawer role`
+        );
+      });
     });
 
     it("per-asset pause prevents redemption", async function () {

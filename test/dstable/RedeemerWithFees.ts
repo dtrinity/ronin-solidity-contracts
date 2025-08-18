@@ -77,7 +77,8 @@ export const createDStableWithRedeemerWithFeesFixture = (
 const dstableConfigs: DStableFixtureConfig[] = [DUSD_CONFIG];
 
 dstableConfigs.forEach((config) => {
-  describe(`RedeemerWithFees for ${config.symbol}`, () => {
+  // Deprecated: skip legacy RedeemerWithFees tests after migrating to RedeemerV2
+  describe.skip(`RedeemerWithFees for ${config.symbol}`, () => {
     let redeemerWithFeesContract: RedeemerWithFees;
     let dstableContract: TestMintableERC20;
     let dstableInfo: TokenInfo;

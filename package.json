@@ -4,6 +4,10 @@
   "author": "dTRINITY",
   "license": "MIT",
   "packageManager": "yarn@4.5.0",
+  "scripts": {
+    "verify:mainnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_mainnet",
+    "verify:testnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_testnet"
+  },
   "devDependencies": {
     "@eslint/compat": "^1.2.6",
     "@eslint/eslintrc": "^3.2.0",

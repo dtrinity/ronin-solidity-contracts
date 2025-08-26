@@ -179,40 +179,52 @@ async function migrateIssuerRolesIdempotent(
   const deployerAddress = await deployerSigner.getAddress();
 
   // Revoke roles from deployer to mirror realistic mainnet governance where deployer is not the governor
-  for (const role of [AMO_MANAGER_ROLE, INCENTIVES_MANAGER_ROLE, PAUSER_ROLE]) {
-    if (await issuer.hasRole(role, deployerAddress)) {
-      const complete = await executor.tryOrQueue(
-        async () => {
-          await issuer.revokeRole(role, deployerAddress);
-          console.log(`    ➖ Revoked ${role} from deployer`);
-        },
-        () =>
-          createRevokeRoleTransaction(
-            issuerAddress,
-            role,
-            deployerAddress,
-            issuer.interface,
-          ),
-      );
-      if (!complete) allComplete = false;
+  // Only revoke if governance already has the role (following Sonic pattern)
+  // Skip revocation if deployer and governance are the same address (common in test environments)
+  const shouldRevokeFromDeployer = deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
+  
+  if (shouldRevokeFromDeployer) {
+    for (const role of [AMO_MANAGER_ROLE, INCENTIVES_MANAGER_ROLE, PAUSER_ROLE]) {
+      const deployerHasRole = await issuer.hasRole(role, deployerAddress);
+      const governanceHasRole = await issuer.hasRole(role, governanceMultisig);
+      
+      if (deployerHasRole && governanceHasRole) {
+        const complete = await executor.tryOrQueue(
+          async () => {
+            await issuer.revokeRole(role, deployerAddress);
+            console.log(`    ➖ Revoked ${role} from deployer`);
+          },
+          () =>
+            createRevokeRoleTransaction(
+              issuerAddress,
+              role,
+              deployerAddress,
+              issuer.interface,
+            ),
+        );
+        if (!complete) allComplete = false;
+      }
     }
   }
 
   // Safely migrate DEFAULT_ADMIN_ROLE away from deployer
-  try {
-    await ensureDefaultAdminExistsAndRevokeFrom(
-      hre,
-      "IssuerV2",
-      issuerAddress,
-      governanceMultisig,
-      deployerAddress,
-      deployerSigner,
-      undefined,
-      executor,
-    );
-  } catch {
-    // In Safe mode, consider admin migration pending
-    allComplete = false;
+  // Skip if deployer and governance are the same (would result in losing admin)
+  if (shouldRevokeFromDeployer) {
+    try {
+      await ensureDefaultAdminExistsAndRevokeFrom(
+        hre,
+        "IssuerV2",
+        issuerAddress,
+        governanceMultisig,
+        deployerAddress,
+        deployerSigner,
+        undefined,
+        executor,
+      );
+    } catch {
+      // In Safe mode, consider admin migration pending
+      allComplete = false;
+    }
   }
   return allComplete;
 }
@@ -330,20 +342,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   }
 
   // Migrate roles to governance multisig (always idempotent)
-  // In test mode, skip role migration to avoid breaking tests
-  let rolesComplete = true;
-  if (executor.useSafe) {
-    rolesComplete = await migrateIssuerRolesIdempotent(
-      hre,
-      DUSD_ISSUER_V2_CONTRACT_ID,
-      newIssuerAddress,
-      deployerSigner,
-      config.walletAddresses.governanceMultisig,
-      executor,
-    );
-  } else {
-    console.log("  📄 Skipping role migration in test mode");
-  }
+  const rolesComplete = await migrateIssuerRolesIdempotent(
+    hre,
+    DUSD_ISSUER_V2_CONTRACT_ID,
+    newIssuerAddress,
+    deployerSigner,
+    config.walletAddresses.governanceMultisig,
+    executor,
+  );
 
   // Optional: keep old issuer operational until governance flips references
   console.log(

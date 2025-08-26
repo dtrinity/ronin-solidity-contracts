@@ -119,40 +119,52 @@ async function migrateRedeemerRolesIdempotent(
   }
 
   // Revoke roles from deployer to mirror realistic governance
-  for (const role of [REDEMPTION_MANAGER_ROLE, PAUSER_ROLE]) {
-    if (await redeemer.hasRole(role, deployerAddress)) {
-      const complete = await executor.tryOrQueue(
-        async () => {
-          await redeemer.revokeRole(role, deployerAddress);
-          console.log(`    ➖ Revoked ${role} from deployer`);
-        },
-        () =>
-          createRevokeRoleTransaction(
-            redeemerAddress,
-            role,
-            deployerAddress,
-            redeemer.interface,
-          ),
-      );
-      if (!complete) allComplete = false;
+  // Only revoke if governance already has the role (following Sonic pattern)
+  // Skip revocation if deployer and governance are the same address (common in test environments)
+  const shouldRevokeFromDeployer = deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
+  
+  if (shouldRevokeFromDeployer) {
+    for (const role of [REDEMPTION_MANAGER_ROLE, PAUSER_ROLE]) {
+      const deployerHasRole = await redeemer.hasRole(role, deployerAddress);
+      const governanceHasRole = await redeemer.hasRole(role, governanceMultisig);
+      
+      if (deployerHasRole && governanceHasRole) {
+        const complete = await executor.tryOrQueue(
+          async () => {
+            await redeemer.revokeRole(role, deployerAddress);
+            console.log(`    ➖ Revoked ${role} from deployer`);
+          },
+          () =>
+            createRevokeRoleTransaction(
+              redeemerAddress,
+              role,
+              deployerAddress,
+              redeemer.interface,
+            ),
+        );
+        if (!complete) allComplete = false;
+      }
     }
   }
 
   // Safely migrate DEFAULT_ADMIN_ROLE away from deployer
-  try {
-    await ensureDefaultAdminExistsAndRevokeFrom(
-      hre,
-      "RedeemerV2",
-      redeemerAddress,
-      governanceMultisig,
-      deployerAddress,
-      await hre.ethers.getSigner(deployerAddress),
-      undefined,
-      executor,
-    );
-  } catch {
-    // In Safe mode, consider admin migration pending
-    allComplete = false;
+  // Skip if deployer and governance are the same (would result in losing admin)
+  if (shouldRevokeFromDeployer) {
+    try {
+      await ensureDefaultAdminExistsAndRevokeFrom(
+        hre,
+        "RedeemerV2",
+        redeemerAddress,
+        governanceMultisig,
+        deployerAddress,
+        await hre.ethers.getSigner(deployerAddress),
+        undefined,
+        executor,
+      );
+    } catch {
+      // In Safe mode, consider admin migration pending
+      allComplete = false;
+    }
   }
   return allComplete;
 }
@@ -283,19 +295,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   // Note: We intentionally do not modify roles on the legacy Redeemer contract to avoid unnecessary gas.
 
   // Migrate roles to governance multisig (idempotent)
-  // In test mode, skip role migration to avoid breaking tests
-  let rolesComplete = true;
-  if (executor.useSafe) {
-    rolesComplete = await migrateRedeemerRolesIdempotent(
-      hre,
-      result.address,
-      deployer,
-      config.walletAddresses.governanceMultisig,
-      executor,
-    );
-  } else {
-    console.log("  📄 Skipping role migration in test mode");
-  }
+  const rolesComplete = await migrateRedeemerRolesIdempotent(
+    hre,
+    result.address,
+    deployer,
+    config.walletAddresses.governanceMultisig,
+    executor,
+  );
 
   // Check if all operations completed
   if (!(vaultRoleComplete && rolesComplete)) {

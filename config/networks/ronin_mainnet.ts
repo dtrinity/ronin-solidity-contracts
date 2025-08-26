@@ -27,6 +27,13 @@ export async function getConfig(
   const governanceSafeMultisig = "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf";
 
   return {
+    // Safe configuration for governance multisig  
+    safeConfig: {
+      safeAddress: governanceSafeMultisig,
+      owners: [], // Will be verified at runtime
+      threshold: 1, // Will be verified at runtime
+      chainId: 2020, // Ronin mainnet chain ID
+    },
     tokenAddresses: {
       dUSD: emptyStringIfUndefined(dUSDDeployment?.address),
     },

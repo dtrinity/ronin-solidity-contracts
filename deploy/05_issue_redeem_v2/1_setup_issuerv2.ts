@@ -3,8 +3,6 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 import { getConfig } from "../../config/config";
-import { GovernanceExecutor } from "../../typescript/hardhat/governance";
-import { SafeTransactionData } from "../../typescript/safe/types";
 import {
   DUSD_AMO_MANAGER_ID,
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,
@@ -14,6 +12,8 @@ import {
   USD_ORACLE_AGGREGATOR_ID,
 } from "../../typescript/deploy-ids";
 import { ensureDefaultAdminExistsAndRevokeFrom } from "../../typescript/hardhat/access_control";
+import { GovernanceExecutor } from "../../typescript/hardhat/governance";
+import { SafeTransactionData } from "../../typescript/safe/types";
 
 const ZERO_BYTES_32 =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -193,6 +193,7 @@ async function migrateIssuerRolesIdempotent(
       if (!complete) allComplete = false;
     }
   }
+
   // Safely migrate DEFAULT_ADMIN_ROLE away from deployer
   try {
     await ensureDefaultAdminExistsAndRevokeFrom(
@@ -205,7 +206,7 @@ async function migrateIssuerRolesIdempotent(
       undefined,
       executor,
     );
-  } catch (e) {
+  } catch {
     // In Safe mode, consider admin migration pending
     allComplete = false;
   }

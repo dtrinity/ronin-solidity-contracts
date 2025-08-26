@@ -27,7 +27,7 @@ export async function getConfig(
   const governanceSafeMultisig = "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf";
 
   return {
-    // Safe configuration for governance multisig  
+    // Safe configuration for governance multisig
     safeConfig: {
       safeAddress: governanceSafeMultisig,
       owners: [], // Will be verified at runtime

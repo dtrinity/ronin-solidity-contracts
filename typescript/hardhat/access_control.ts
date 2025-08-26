@@ -1,5 +1,6 @@
 import { Signer } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
+
 import { GovernanceExecutor } from "./governance";
 
 export const ZERO_BYTES_32 =
@@ -13,13 +14,14 @@ export const ZERO_BYTES_32 =
  * - If caller is the same as `adminToRevoke`, will self-renounce via renounceRole once `adminToKeep` is confirmed.
  * - Falls back to manual actions when permissions are insufficient.
  *
- * @param hre
- * @param contractName
- * @param contractAddress
- * @param adminToKeep
- * @param adminToRevoke
- * @param callerSigner
- * @param manualActions
+ * @param hre Hardhat runtime environment
+ * @param contractName Name of the contract for logging purposes
+ * @param contractAddress Address of the contract to modify
+ * @param adminToKeep Address that should retain DEFAULT_ADMIN_ROLE
+ * @param adminToRevoke Address from which DEFAULT_ADMIN_ROLE should be removed
+ * @param callerSigner Signer used to execute the transaction
+ * @param manualActions Optional array to collect manual action descriptions when automated actions fail
+ * @param executor Optional governance executor for queuing transactions via Safe
  */
 export async function ensureDefaultAdminExistsAndRevokeFrom(
   hre: HardhatRuntimeEnvironment,
@@ -42,13 +44,14 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
   // Phase 1: Ensure adminToKeep has DEFAULT_ADMIN_ROLE
   try {
     const hasAdmin = await contract.hasRole(DEFAULT_ADMIN_ROLE, adminToKeep);
+
     if (!hasAdmin) {
       try {
         await contract.grantRole(DEFAULT_ADMIN_ROLE, adminToKeep);
         console.log(
           `    ➕ Granted DEFAULT_ADMIN_ROLE to ${adminToKeep} on ${contractName}`,
         );
-      } catch (e) {
+      } catch {
         // Try to queue via Safe if available
         if (executor) {
           await executor.tryOrQueue(
@@ -74,6 +77,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
     console.log(
       `    ⚠️ Could not check/grant DEFAULT_ADMIN_ROLE for ${adminToKeep} on ${contractName}: ${(e as Error).message}`,
     );
+
     // Best effort: still queue grant if Safe is available
     if (executor) {
       await executor.tryOrQueue(
@@ -101,6 +105,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
       DEFAULT_ADMIN_ROLE,
       adminToKeep,
     );
+
     if (!keepHasAdmin) {
       // Do not proceed with removal to avoid lockout
       console.log(
@@ -127,6 +132,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
       DEFAULT_ADMIN_ROLE,
       adminToRevoke,
     );
+
     if (!revokeNeeded) {
       return;
     }
@@ -141,6 +147,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
   }
 
   const caller = (await callerSigner.getAddress()).toLowerCase();
+
   if (caller === adminToRevoke.toLowerCase()) {
     // Self-removal path: use renounceRole after confirming adminToKeep already has admin
     try {
@@ -148,7 +155,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
       console.log(
         `    ➖ Renounced DEFAULT_ADMIN_ROLE for ${adminToRevoke} on ${contractName}`,
       );
-    } catch (e) {
+    } catch {
       // Fallback: queue a revoke via Safe (governance) if available
       if (executor) {
         await executor.tryOrQueue(
@@ -177,7 +184,7 @@ export async function ensureDefaultAdminExistsAndRevokeFrom(
     console.log(
       `    ➖ Revoked DEFAULT_ADMIN_ROLE from ${adminToRevoke} on ${contractName}`,
     );
-  } catch (e) {
+  } catch {
     // Try queueing revoke via Safe (governance)
     if (executor) {
       await executor.tryOrQueue(

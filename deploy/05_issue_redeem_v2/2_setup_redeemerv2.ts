@@ -2,8 +2,6 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 import { getConfig } from "../../config/config";
-import { GovernanceExecutor } from "../../typescript/hardhat/governance";
-import { SafeTransactionData } from "../../typescript/safe/types";
 import {
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,
   DUSD_REDEEMER_V2_CONTRACT_ID,
@@ -12,6 +10,8 @@ import {
   USD_ORACLE_AGGREGATOR_ID,
 } from "../../typescript/deploy-ids";
 import { ensureDefaultAdminExistsAndRevokeFrom } from "../../typescript/hardhat/access_control";
+import { GovernanceExecutor } from "../../typescript/hardhat/governance";
+import { SafeTransactionData } from "../../typescript/safe/types";
 
 const ZERO_BYTES_32 =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
@@ -135,6 +135,7 @@ async function migrateRedeemerRolesIdempotent(
       if (!complete) allComplete = false;
     }
   }
+
   // Safely migrate DEFAULT_ADMIN_ROLE away from deployer
   try {
     await ensureDefaultAdminExistsAndRevokeFrom(
@@ -147,7 +148,7 @@ async function migrateRedeemerRolesIdempotent(
       undefined,
       executor,
     );
-  } catch (e) {
+  } catch {
     // In Safe mode, consider admin migration pending
     allComplete = false;
   }
@@ -207,6 +208,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // Grant vault withdraw permission to new redeemer and revoke from old redeemer
   let vaultRoleComplete = true;
+
   try {
     const vaultContract = await hre.ethers.getContractAt(
       "CollateralHolderVault",
@@ -214,6 +216,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       await hre.ethers.getSigner(deployer),
     );
     const WITHDRAWER_ROLE = await vaultContract.COLLATERAL_WITHDRAWER_ROLE();
+
     if (!(await vaultContract.hasRole(WITHDRAWER_ROLE, result.address))) {
       const complete = await executor.tryOrQueue(
         async () => {

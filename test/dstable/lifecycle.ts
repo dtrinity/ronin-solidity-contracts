@@ -60,7 +60,7 @@ dstableConfigs.forEach((config) => {
       const issuerAddress = (await hre.deployments.get(config.issuerContractId))
         .address;
       issuerContract = await hre.ethers.getContractAt(
-        "Issuer",
+        "IssuerV2",
         issuerAddress,
         await hre.ethers.getSigner(deployer),
       );
@@ -69,7 +69,7 @@ dstableConfigs.forEach((config) => {
         await hre.deployments.get(config.redeemerContractId)
       ).address;
       redeemerContract = await hre.ethers.getContractAt(
-        "RedeemerWithFees",
+        "RedeemerV2",
         redeemerAddress,
         await hre.ethers.getSigner(deployer),
       );

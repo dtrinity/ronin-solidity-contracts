@@ -55,7 +55,7 @@ dstableConfigs.forEach((config) => {
       const issuerAddress = (await hre.deployments.get(config.issuerContractId))
         .address;
       issuerContract = await hre.ethers.getContractAt(
-        "Issuer",
+        "IssuerV2",
         issuerAddress,
         await hre.ethers.getSigner(deployer),
       );

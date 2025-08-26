@@ -30,7 +30,7 @@ export async function getConfig(
     // Safe configuration for governance multisig
     safeConfig: {
       safeAddress: governanceSafeMultisig,
-      owners: [], // Will be verified at runtime
+      owners: ["0x9E0c8376940aBE845A89b7304147a95c72644f59"], // Will be verified at runtime
       threshold: 1, // Will be verified at runtime
       chainId: 2020, // Ronin mainnet chain ID
     },

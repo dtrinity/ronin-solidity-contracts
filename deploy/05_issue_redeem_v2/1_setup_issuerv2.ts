@@ -181,13 +181,18 @@ async function migrateIssuerRolesIdempotent(
   // Revoke roles from deployer to mirror realistic mainnet governance where deployer is not the governor
   // Only revoke if governance already has the role (following Sonic pattern)
   // Skip revocation if deployer and governance are the same address (common in test environments)
-  const shouldRevokeFromDeployer = deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
-  
+  const shouldRevokeFromDeployer =
+    deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
+
   if (shouldRevokeFromDeployer) {
-    for (const role of [AMO_MANAGER_ROLE, INCENTIVES_MANAGER_ROLE, PAUSER_ROLE]) {
+    for (const role of [
+      AMO_MANAGER_ROLE,
+      INCENTIVES_MANAGER_ROLE,
+      PAUSER_ROLE,
+    ]) {
       const deployerHasRole = await issuer.hasRole(role, deployerAddress);
       const governanceHasRole = await issuer.hasRole(role, governanceMultisig);
-      
+
       if (deployerHasRole && governanceHasRole) {
         const complete = await executor.tryOrQueue(
           async () => {

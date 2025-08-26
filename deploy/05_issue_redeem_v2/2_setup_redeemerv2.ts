@@ -121,13 +121,17 @@ async function migrateRedeemerRolesIdempotent(
   // Revoke roles from deployer to mirror realistic governance
   // Only revoke if governance already has the role (following Sonic pattern)
   // Skip revocation if deployer and governance are the same address (common in test environments)
-  const shouldRevokeFromDeployer = deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
-  
+  const shouldRevokeFromDeployer =
+    deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
+
   if (shouldRevokeFromDeployer) {
     for (const role of [REDEMPTION_MANAGER_ROLE, PAUSER_ROLE]) {
       const deployerHasRole = await redeemer.hasRole(role, deployerAddress);
-      const governanceHasRole = await redeemer.hasRole(role, governanceMultisig);
-      
+      const governanceHasRole = await redeemer.hasRole(
+        role,
+        governanceMultisig,
+      );
+
       if (deployerHasRole && governanceHasRole) {
         const complete = await executor.tryOrQueue(
           async () => {

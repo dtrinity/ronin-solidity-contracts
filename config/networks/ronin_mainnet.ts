@@ -16,7 +16,7 @@ import { Config } from "../types";
  * @returns The configuration for the network
  */
 export async function getConfig(
-  _hre: HardhatRuntimeEnvironment
+  _hre: HardhatRuntimeEnvironment,
 ): Promise<Config> {
   const dUSDDeployment = await _hre.deployments.getOrNull(DUSD_TOKEN_ID);
 
@@ -27,6 +27,13 @@ export async function getConfig(
   const governanceSafeMultisig = "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf";
 
   return {
+    // Safe configuration for governance multisig
+    safeConfig: {
+      safeAddress: governanceSafeMultisig,
+      owners: ["0x9E0c8376940aBE845A89b7304147a95c72644f59"], // Will be verified at runtime
+      threshold: 1, // Will be verified at runtime
+      chainId: 2020, // Ronin mainnet chain ID
+    },
     tokenAddresses: {
       dUSD: emptyStringIfUndefined(dUSDDeployment?.address),
     },

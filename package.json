@@ -4,6 +4,10 @@
   "author": "dTRINITY",
   "license": "MIT",
   "packageManager": "yarn@4.5.0",
+  "scripts": {
+    "verify:mainnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_mainnet",
+    "verify:testnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_testnet"
+  },
   "devDependencies": {
     "@eslint/compat": "^1.2.6",
     "@eslint/eslintrc": "^3.2.0",
@@ -19,6 +23,9 @@
     "@openzeppelin/contracts": "^5.2.0",
     "@openzeppelin/contracts-upgradeable": "^5.2.0",
     "@rari-capital/solmate": "^6.4.0",
+    "@safe-global/api-kit": "^2.5.11",
+    "@safe-global/protocol-kit": "^4.1.7",
+    "@safe-global/types-kit": "^1.0.5",
     "@typechain/ethers-v6": "^0.5.1",
     "@typechain/hardhat": "^9.1.0",
     "@types/chai": "^5.0.1",

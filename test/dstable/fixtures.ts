@@ -3,8 +3,8 @@ import hre, { deployments } from "hardhat";
 import {
   DUSD_AMO_MANAGER_ID,
   DUSD_COLLATERAL_VAULT_CONTRACT_ID,
-  DUSD_ISSUER_CONTRACT_ID,
-  DUSD_REDEEMER_WITH_FEES_CONTRACT_ID,
+  DUSD_ISSUER_V2_CONTRACT_ID,
+  DUSD_REDEEMER_V2_CONTRACT_ID,
   USD_ORACLE_AGGREGATOR_ID,
 } from "../../typescript/deploy-ids";
 import { getTokenContractForSymbol } from "../../typescript/token/utils";
@@ -69,8 +69,8 @@ export const createDStableAmoFixture = (config: DStableFixtureConfig) => {
 // Predefined configurations
 export const DUSD_CONFIG: DStableFixtureConfig = {
   symbol: "dUSD",
-  issuerContractId: DUSD_ISSUER_CONTRACT_ID,
-  redeemerContractId: DUSD_REDEEMER_WITH_FEES_CONTRACT_ID,
+  issuerContractId: DUSD_ISSUER_V2_CONTRACT_ID,
+  redeemerContractId: DUSD_REDEEMER_V2_CONTRACT_ID,
   collateralVaultContractId: DUSD_COLLATERAL_VAULT_CONTRACT_ID,
   amoManagerId: DUSD_AMO_MANAGER_ID,
   oracleAggregatorId: USD_ORACLE_AGGREGATOR_ID,

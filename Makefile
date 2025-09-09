@@ -133,12 +133,12 @@ clean-deployments: ## Clean the deployments for a given network which matches at
 ####################
 
 explorer.verify.ronin_testnet:
-	@echo "Verifying contracts on Ronin testnet..."
-	@yarn hardhat --network ronin_testnet etherscan-verify
+	@echo "Verifying contracts on Ronin testnet via Sourcify..."
+	@yarn verify:testnet
 
 explorer.verify.ronin_mainnet:
-	@echo "Verifying contracts on Ronin mainnet..."
-	@yarn hardhat --network ronin_mainnet etherscan-verify
+	@echo "Verifying contracts on Ronin mainnet via Sourcify..."
+	@yarn verify:mainnet
 
 ##############
 ## Building ##

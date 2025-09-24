@@ -421,9 +421,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dtrinity/shared-hardhat-tools@file:.shared::locator=ethereum-solidity-contracts%40workspace%3A.":
-  version: 1.0.0
-  resolution: "@dtrinity/shared-hardhat-tools@file:.shared#.shared::hash=715c00&locator=ethereum-solidity-contracts%40workspace%3A."
+"@dtrinity/shared-hardhat-tools@portal:.shared::locator=ethereum-solidity-contracts%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@dtrinity/shared-hardhat-tools@portal:.shared::locator=ethereum-solidity-contracts%40workspace%3A."
   dependencies:
     chalk: "npm:^4.1.2"
     commander: "npm:^11.0.0"
@@ -443,9 +443,8 @@ __metadata:
       optional: true
     solhint:
       optional: true
-  checksum: 10c0/814d30b7ec74e3e2791daf63bc004ba5cc7ae7478eebe2191ca78463861a11aecdbd1cdb9d974f00e7cab3f03f0e4ef680bea5d797973619c0ba77a00c3d6bb7
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@es-joy/jsdoccomment@npm:~0.50.2":
   version: 0.50.2
@@ -5260,7 +5259,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ethereum-solidity-contracts@workspace:."
   dependencies:
-    "@dtrinity/shared-hardhat-tools": "file:.shared"
+    "@dtrinity/shared-hardhat-tools": "portal:.shared"
     "@eslint/compat": "npm:^1.2.6"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.20.0"

@@ -6,7 +6,13 @@
   "packageManager": "yarn@4.5.0",
   "scripts": {
     "verify:mainnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_mainnet",
-    "verify:testnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_testnet"
+    "verify:testnet": "hardhat sourcify --endpoint https://sourcify.roninchain.com/server/ --network ronin_testnet",
+    "analyze:shared": "ts-node .shared/scripts/analysis/run-all.ts",
+    "lint:eslint": "ts-node .shared/scripts/linting/eslint.ts",
+    "lint:prettier": "ts-node .shared/scripts/linting/prettier.ts",
+    "lint:all": "ts-node .shared/scripts/linting/run-all.ts",
+    "guardrails:check": "ts-node .shared/scripts/guardrails/check.ts",
+    "shared:update": "bash .shared/scripts/subtree/update.sh"
   },
   "devDependencies": {
     "@eslint/compat": "^1.2.6",
@@ -57,5 +63,8 @@
     "ts-node": "^10.9.2",
     "typechain": "^8.3.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@dtrinity/shared-hardhat-tools": "file:.shared"
   }
 }

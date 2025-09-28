@@ -3,10 +3,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 import { ONE_PERCENT_BPS } from "../../typescript/common/bps_constants";
 import { DUSD_TOKEN_ID } from "../../typescript/deploy-ids";
-import {
-  ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT,
-  ORACLE_AGGREGATOR_PRICE_DECIMALS,
-} from "../../typescript/oracle_aggregator/constants";
+import { ORACLE_AGGREGATOR_BASE_CURRENCY_UNIT, ORACLE_AGGREGATOR_PRICE_DECIMALS } from "../../typescript/oracle_aggregator/constants";
 import { Config } from "../types";
 
 /**
@@ -15,9 +12,7 @@ import { Config } from "../types";
  * @param _hre - Hardhat Runtime Environment
  * @returns The configuration for the network
  */
-export async function getConfig(
-  _hre: HardhatRuntimeEnvironment,
-): Promise<Config> {
+export async function getConfig(_hre: HardhatRuntimeEnvironment): Promise<Config> {
   // Token info will only be populated after their deployment
   const dUSDDeployment = await _hre.deployments.getOrNull(DUSD_TOKEN_ID);
   const USDCDeployment = await _hre.deployments.getOrNull("USDC");
@@ -30,19 +25,12 @@ export async function getConfig(
   const mockOracleNameToAddress: Record<string, string> = {};
 
   // REFACTOR: Load addresses directly using getOrNull
-  const mockOracleAddressesDeployment = await _hre.deployments.getOrNull(
-    "MockOracleNameToAddress",
-  );
+  const mockOracleAddressesDeployment = await _hre.deployments.getOrNull("MockOracleNameToAddress");
 
   if (mockOracleAddressesDeployment?.linkedData) {
-    Object.assign(
-      mockOracleNameToAddress,
-      mockOracleAddressesDeployment.linkedData,
-    );
+    Object.assign(mockOracleNameToAddress, mockOracleAddressesDeployment.linkedData);
   } else {
-    console.warn(
-      "WARN: MockOracleNameToAddress deployment not found or has no linkedData. Oracle addresses might be incomplete.",
-    );
+    console.warn("WARN: MockOracleNameToAddress deployment not found or has no linkedData. Oracle addresses might be incomplete.");
   }
 
   // Get the named accounts
@@ -118,14 +106,10 @@ export async function getConfig(
         baseCurrency: ZeroAddress,
         api3OracleAssets: {
           plainApi3OracleWrappers: {
-            [dUSDDeployment?.address || ""]:
-              mockOracleNameToAddress["dUSD_USD"],
-            [USDCDeployment?.address || ""]:
-              mockOracleNameToAddress["USDC_USD"],
-            [USDSDeployment?.address || ""]:
-              mockOracleNameToAddress["USDS_USD"],
-            [frxUSDDeployment?.address || ""]:
-              mockOracleNameToAddress["frxUSD_USD"],
+            [dUSDDeployment?.address || ""]: mockOracleNameToAddress["dUSD_USD"],
+            [USDCDeployment?.address || ""]: mockOracleNameToAddress["USDC_USD"],
+            [USDSDeployment?.address || ""]: mockOracleNameToAddress["USDS_USD"],
+            [frxUSDDeployment?.address || ""]: mockOracleNameToAddress["frxUSD_USD"],
           },
           api3OracleWrappersWithThresholding: {},
           compositeApi3OracleWrappersWithThresholding: {

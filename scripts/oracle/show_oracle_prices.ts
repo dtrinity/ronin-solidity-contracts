@@ -19,26 +19,18 @@ async function loadNetworkConfig() {
 
   try {
     // Example path: ../../config/networks/ronin_mainnet.ts (relative to this script file)
-    const configPath = path.resolve(
-      __dirname,
-      "../../config/networks",
-      `${networkName}.ts`,
-    );
+    const configPath = path.resolve(__dirname, "../../config/networks", `${networkName}.ts`);
 
     const configModule = await import(configPath);
 
     if (typeof configModule.getConfig !== "function") {
-      console.warn(
-        `Config module for ${networkName} does not export getConfig – skipping aggregator section`,
-      );
+      console.warn(`Config module for ${networkName} does not export getConfig – skipping aggregator section`);
       return undefined;
     }
     const config = await configModule.getConfig(hre);
     return config;
   } catch (err) {
-    console.warn(
-      `⚠️  Could not load network config for ${networkName}: ${(err as Error).message}`,
-    );
+    console.warn(`⚠️  Could not load network config for ${networkName}: ${(err as Error).message}`);
     return undefined;
   }
 }
@@ -53,9 +45,7 @@ async function getAggregatorContract(key: string) {
 
   try {
     const dep = await hre.deployments.get(deploymentName);
-    const AGGREGATOR_ABI = [
-      "function getAssetPrice(address) view returns (uint256)",
-    ];
+    const AGGREGATOR_ABI = ["function getAssetPrice(address) view returns (uint256)"];
     return await ethers.getContractAt(AGGREGATOR_ABI, dep.address);
   } catch {
     return undefined;
@@ -67,9 +57,7 @@ async function dumpAggregatorPrices(): Promise<void> {
   const config = await loadNetworkConfig();
   if (!config) return;
 
-  const aggregatorEntries = Object.entries(
-    (config.oracleAggregators ?? {}) as Record<string, any>,
-  );
+  const aggregatorEntries = Object.entries((config.oracleAggregators ?? {}) as Record<string, any>);
   if (aggregatorEntries.length === 0) return;
 
   console.log("\n📊 Aggregator Prices");
@@ -98,17 +86,12 @@ async function dumpAggregatorPrices(): Promise<void> {
     // API3
     addKeys(aggConfig.api3OracleAssets?.plainApi3OracleWrappers);
     addKeys(aggConfig.api3OracleAssets?.api3OracleWrappersWithThresholding);
-    addKeys(
-      aggConfig.api3OracleAssets?.compositeApi3OracleWrappersWithThresholding,
-    );
-
+    addKeys(aggConfig.api3OracleAssets?.compositeApi3OracleWrappersWithThresholding);
 
     // Chainlink composite wrappers (simple map asset->config)
     addKeys(aggConfig.chainlinkCompositeWrapperAggregator);
 
-    const tokenAddressMap: Record<string, string> = Object.entries(
-      (config.tokenAddresses ?? {}) as Record<string, any>,
-    ).reduce(
+    const tokenAddressMap: Record<string, string> = Object.entries((config.tokenAddresses ?? {}) as Record<string, any>).reduce(
       (acc, [symbol, addr]) => {
         if (addr) acc[(addr as string).toLowerCase()] = symbol;
         return acc;
@@ -127,9 +110,7 @@ async function dumpAggregatorPrices(): Promise<void> {
         const symbol = tokenAddressMap[assetAddrLower] || assetAddrLower;
         console.log(`  ${symbol.padEnd(15)} : ${priceHuman}`);
       } catch (err) {
-        console.warn(
-          `  ⚠️  Could not fetch price for ${assetAddrLower}: ${(err as Error).message}`,
-        );
+        console.warn(`  ⚠️  Could not fetch price for ${assetAddrLower}: ${(err as Error).message}`);
       }
     }
     console.log("------------------------------------------------------------");
@@ -157,8 +138,7 @@ async function main(): Promise<void> {
   const entries = Object.entries(deployments);
 
   // Helper to decide whether a deployment looks like an oracle (naive pattern match)
-  const looksLikeOracle = (name: string): boolean =>
-    /Oracle|Wrapper|Converter|HardPegOracle|Aggregator/i.test(name);
+  const looksLikeOracle = (name: string): boolean => /Oracle|Wrapper|Converter|HardPegOracle|Aggregator/i.test(name);
 
   for (const [name, deployment] of entries) {
     if (!looksLikeOracle(name)) {
@@ -175,10 +155,7 @@ async function main(): Promise<void> {
       const aggregator = await ethers.getContractAt(AGGREGATOR_ABI, address);
 
       // These calls are read-only and inexpensive
-      const [decimals, description] = await Promise.all([
-        aggregator.decimals(),
-        aggregator.description().catch(() => ""),
-      ]);
+      const [decimals, description] = await Promise.all([aggregator.decimals(), aggregator.description().catch(() => "")]);
 
       // latestRoundData returns (uint80,int256,uint256,uint256,uint80)
       const [, answer, , updatedAt] = await aggregator.latestRoundData();
@@ -191,9 +168,7 @@ async function main(): Promise<void> {
       console.log(`  decimals    : ${decimals}`);
       console.log(`  price       : ${priceHuman}`);
       console.log(`  updatedAt   : ${updatedIso}`);
-      console.log(
-        "------------------------------------------------------------",
-      );
+      console.log("------------------------------------------------------------");
     } catch (err) {
       // The contract might not conform to the interface – skip quietly.
       // Uncomment next line for troubleshooting.

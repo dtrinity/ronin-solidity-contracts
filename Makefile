@@ -1,3 +1,5 @@
+include .shared/Makefile
+
 # Make 'help' the default target
 .DEFAULT_GOAL := help
 
@@ -154,4 +156,3 @@ clean: ## When renaming directories or files, run this to clean up
 	@echo "Cleaned solidity cache and artifacts. Remember to recompile."
 
 .PHONY: help compile test deploy clean slither slither.check slither.focused mythril mythril.focused mythril.deep mythril.fast mythril.force mythril.summary audit
-

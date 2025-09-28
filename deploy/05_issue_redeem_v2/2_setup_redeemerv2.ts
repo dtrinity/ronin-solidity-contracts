@@ -13,8 +13,7 @@ import { ensureDefaultAdminExistsAndRevokeFrom } from "../../typescript/hardhat/
 import { GovernanceExecutor } from "../../typescript/hardhat/governance";
 import { SafeTransactionData } from "../../typescript/safe/types";
 
-const ZERO_BYTES_32 =
-  "0x0000000000000000000000000000000000000000000000000000000000000000";
+const ZERO_BYTES_32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 /**
  * Build Safe transaction data for AccessControl.grantRole.
@@ -25,12 +24,7 @@ const ZERO_BYTES_32 =
  * @param contractInterface Interface used to encode the function call
  * @returns Safe transaction data for grantRole
  */
-function createGrantRoleTransaction(
-  contractAddress: string,
-  role: string,
-  grantee: string,
-  contractInterface: any,
-): SafeTransactionData {
+function createGrantRoleTransaction(contractAddress: string, role: string, grantee: string, contractInterface: any): SafeTransactionData {
   return {
     to: contractAddress,
     value: "0",
@@ -47,12 +41,7 @@ function createGrantRoleTransaction(
  * @param contractInterface Interface used to encode the function call
  * @returns Safe transaction data for revokeRole
  */
-function createRevokeRoleTransaction(
-  contractAddress: string,
-  role: string,
-  account: string,
-  contractInterface: any,
-): SafeTransactionData {
+function createRevokeRoleTransaction(contractAddress: string, role: string, account: string, contractInterface: any): SafeTransactionData {
   return {
     to: contractAddress,
     value: "0",
@@ -78,11 +67,7 @@ async function migrateRedeemerRolesIdempotent(
   executor: GovernanceExecutor,
 ): Promise<boolean> {
   const deployerSigner = await hre.ethers.getSigner(deployerAddress);
-  const redeemer = await hre.ethers.getContractAt(
-    "RedeemerV2",
-    redeemerAddress,
-    deployerSigner,
-  );
+  const redeemer = await hre.ethers.getContractAt("RedeemerV2", redeemerAddress, deployerSigner);
   const DEFAULT_ADMIN_ROLE = ZERO_BYTES_32;
   const REDEMPTION_MANAGER_ROLE = await redeemer.REDEMPTION_MANAGER_ROLE();
   const PAUSER_ROLE = await redeemer.PAUSER_ROLE();
@@ -102,35 +87,23 @@ async function migrateRedeemerRolesIdempotent(
           await redeemer.grantRole(role.hash, governanceMultisig);
           console.log(`    ➕ Granted ${role.name} to ${governanceMultisig}`);
         },
-        () =>
-          createGrantRoleTransaction(
-            redeemerAddress,
-            role.hash,
-            governanceMultisig,
-            redeemer.interface,
-          ),
+        () => createGrantRoleTransaction(redeemerAddress, role.hash, governanceMultisig, redeemer.interface),
       );
       if (!complete) allComplete = false;
     } else {
-      console.log(
-        `    ✓ ${role.name} already granted to ${governanceMultisig}`,
-      );
+      console.log(`    ✓ ${role.name} already granted to ${governanceMultisig}`);
     }
   }
 
   // Revoke roles from deployer to mirror realistic governance
   // Only revoke if governance already has the role (following Sonic pattern)
   // Skip revocation if deployer and governance are the same address (common in test environments)
-  const shouldRevokeFromDeployer =
-    deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
+  const shouldRevokeFromDeployer = deployerAddress.toLowerCase() !== governanceMultisig.toLowerCase();
 
   if (shouldRevokeFromDeployer) {
     for (const role of [REDEMPTION_MANAGER_ROLE, PAUSER_ROLE]) {
       const deployerHasRole = await redeemer.hasRole(role, deployerAddress);
-      const governanceHasRole = await redeemer.hasRole(
-        role,
-        governanceMultisig,
-      );
+      const governanceHasRole = await redeemer.hasRole(role, governanceMultisig);
 
       if (deployerHasRole && governanceHasRole) {
         const complete = await executor.tryOrQueue(
@@ -138,13 +111,7 @@ async function migrateRedeemerRolesIdempotent(
             await redeemer.revokeRole(role, deployerAddress);
             console.log(`    ➖ Revoked ${role} from deployer`);
           },
-          () =>
-            createRevokeRoleTransaction(
-              redeemerAddress,
-              role,
-              deployerAddress,
-              redeemer.interface,
-            ),
+          () => createRevokeRoleTransaction(redeemerAddress, role, deployerAddress, redeemer.interface),
         );
         if (!complete) allComplete = false;
       }
@@ -178,78 +145,47 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const config = await getConfig(hre);
   const deployerSigner = await ethers.getSigner(deployer);
-  const executor = new GovernanceExecutor(
-    hre,
-    deployerSigner,
-    config.safeConfig,
-  );
+  const executor = new GovernanceExecutor(hre, deployerSigner, config.safeConfig);
   await executor.initialize();
 
   console.log(`\n=== Deploy RedeemerV2 for dUSD ===`);
 
   const { address: oracle } = await deployments.get(USD_ORACLE_AGGREGATOR_ID);
-  const { address: vault } = await deployments.get(
-    DUSD_COLLATERAL_VAULT_CONTRACT_ID,
-  );
+  const { address: vault } = await deployments.get(DUSD_COLLATERAL_VAULT_CONTRACT_ID);
 
   const tokenAddress = (config as any).tokenAddresses.dUSD;
   const stableCfg = (config as any).dStables?.dUSD;
   const initialFeeReceiver = stableCfg?.initialFeeReceiver || deployer;
-  const initialRedemptionFeeBps =
-    stableCfg?.initialRedemptionFeeBps !== undefined
-      ? stableCfg.initialRedemptionFeeBps
-      : 0;
+  const initialRedemptionFeeBps = stableCfg?.initialRedemptionFeeBps !== undefined ? stableCfg.initialRedemptionFeeBps : 0;
 
   const result = await deployments.deploy(DUSD_REDEEMER_V2_CONTRACT_ID, {
     from: deployer,
-    args: [
-      vault,
-      tokenAddress,
-      oracle,
-      initialFeeReceiver,
-      initialRedemptionFeeBps,
-    ],
+    args: [vault, tokenAddress, oracle, initialFeeReceiver, initialRedemptionFeeBps],
     contract: "RedeemerV2",
     autoMine: true,
     log: false,
   });
 
   if (result.newlyDeployed) {
-    console.log(
-      `  ✅ Deployed ${DUSD_REDEEMER_V2_CONTRACT_ID} at ${result.address}`,
-    );
+    console.log(`  ✅ Deployed ${DUSD_REDEEMER_V2_CONTRACT_ID} at ${result.address}`);
   } else {
-    console.log(
-      `  ✓ ${DUSD_REDEEMER_V2_CONTRACT_ID} already at ${result.address}`,
-    );
+    console.log(`  ✓ ${DUSD_REDEEMER_V2_CONTRACT_ID} already at ${result.address}`);
   }
 
   // Grant vault withdraw permission to new redeemer and revoke from old redeemer
   let vaultRoleComplete = true;
 
   try {
-    const vaultContract = await hre.ethers.getContractAt(
-      "CollateralHolderVault",
-      vault,
-      await hre.ethers.getSigner(deployer),
-    );
+    const vaultContract = await hre.ethers.getContractAt("CollateralHolderVault", vault, await hre.ethers.getSigner(deployer));
     const WITHDRAWER_ROLE = await vaultContract.COLLATERAL_WITHDRAWER_ROLE();
 
     if (!(await vaultContract.hasRole(WITHDRAWER_ROLE, result.address))) {
       const complete = await executor.tryOrQueue(
         async () => {
           await vaultContract.grantRole(WITHDRAWER_ROLE, result.address);
-          console.log(
-            `    ➕ Granted COLLATERAL_WITHDRAWER_ROLE to new redeemer ${result.address}`,
-          );
+          console.log(`    ➕ Granted COLLATERAL_WITHDRAWER_ROLE to new redeemer ${result.address}`);
         },
-        () =>
-          createGrantRoleTransaction(
-            vault,
-            WITHDRAWER_ROLE,
-            result.address,
-            vaultContract.interface,
-          ),
+        () => createGrantRoleTransaction(vault, WITHDRAWER_ROLE, result.address, vaultContract.interface),
       );
       if (!complete) vaultRoleComplete = false;
     }
@@ -261,35 +197,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
       if (
         legacyDeployment &&
-        legacyDeployment.address.toLowerCase() !==
-          result.address.toLowerCase() &&
+        legacyDeployment.address.toLowerCase() !== result.address.toLowerCase() &&
         (await vaultContract.hasRole(WITHDRAWER_ROLE, legacyDeployment.address))
       ) {
         const complete = await executor.tryOrQueue(
           async () => {
-            await vaultContract.revokeRole(
-              WITHDRAWER_ROLE,
-              legacyDeployment.address,
-            );
-            console.log(
-              `    ➖ Revoked COLLATERAL_WITHDRAWER_ROLE from legacy ${legacyId} at ${legacyDeployment.address}`,
-            );
+            await vaultContract.revokeRole(WITHDRAWER_ROLE, legacyDeployment.address);
+            console.log(`    ➖ Revoked COLLATERAL_WITHDRAWER_ROLE from legacy ${legacyId} at ${legacyDeployment.address}`);
           },
-          () =>
-            createRevokeRoleTransaction(
-              vault,
-              WITHDRAWER_ROLE,
-              legacyDeployment.address,
-              vaultContract.interface,
-            ),
+          () => createRevokeRoleTransaction(vault, WITHDRAWER_ROLE, legacyDeployment.address, vaultContract.interface),
         );
         if (!complete) vaultRoleComplete = false;
       }
     }
   } catch (e) {
-    console.log(
-      `    ⚠️ Could not update vault withdrawer roles: ${(e as Error).message}`,
-    );
+    console.log(`    ⚠️ Could not update vault withdrawer roles: ${(e as Error).message}`);
     vaultRoleComplete = false;
   }
 
@@ -310,15 +232,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   // Check if all operations completed
   if (!(vaultRoleComplete && rolesComplete)) {
     await executor.flush("Setup RedeemerV2: governance operations");
-    console.log(
-      "\n⏳ Some operations require governance signatures to complete.",
-    );
-    console.log(
-      "   Re-run the script after the Safe batch is executed to finalize.",
-    );
-    console.log(
-      `\n≻ ${__filename.split("/").slice(-2).join("/")}: pending governance ⏳`,
-    );
+    console.log("\n⏳ Some operations require governance signatures to complete.");
+    console.log("   Re-run the script after the Safe batch is executed to finalize.");
+    console.log(`\n≻ ${__filename.split("/").slice(-2).join("/")}: pending governance ⏳`);
     return false;
   }
 
@@ -328,10 +244,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 func.id = "05_2_setup_redeemerv2";
 func.tags = ["setup-issuerv2", "setup-redeemerv2"];
-func.dependencies = [
-  DUSD_COLLATERAL_VAULT_CONTRACT_ID,
-  DUSD_TOKEN_ID,
-  USD_ORACLE_AGGREGATOR_ID,
-];
+func.dependencies = [DUSD_COLLATERAL_VAULT_CONTRACT_ID, DUSD_TOKEN_ID, USD_ORACLE_AGGREGATOR_ID];
 
 export default func;

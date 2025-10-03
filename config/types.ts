@@ -1,3 +1,4 @@
+import { SafeConfig } from "@dtrinity/shared-hardhat-tools";
 import { Address } from "hardhat-deploy/types";
 
 export interface Config {
@@ -41,18 +42,6 @@ export interface TokenAddresses {
 
 export interface WalletAddresses {
   readonly governanceMultisig: string;
-}
-
-/**
- * Configuration for Safe Protocol Kit integration
- */
-export interface SafeConfig {
-  readonly safeAddress: Address;
-  readonly owners: Address[];
-  readonly threshold: number;
-  readonly chainId: number;
-  readonly rpcUrl?: string;
-  readonly txServiceUrl?: string;
 }
 
 export interface OracleAggregatorConfig {

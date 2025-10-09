@@ -1,3 +1,4 @@
+import { SafeTransactionData } from "@dtrinity/shared-hardhat-tools";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
@@ -11,7 +12,6 @@ import {
 } from "../../typescript/deploy-ids";
 import { ensureDefaultAdminExistsAndRevokeFrom } from "../../typescript/hardhat/access_control";
 import { GovernanceExecutor } from "../../typescript/hardhat/governance";
-import { SafeTransactionData } from "../../typescript/safe/types";
 
 const ZERO_BYTES_32 = "0x0000000000000000000000000000000000000000000000000000000000000000";
 

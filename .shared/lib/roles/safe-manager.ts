@@ -108,17 +108,13 @@ export class SafeManager {
     }
 
     // Verify all configured owners are actual owners
-    const missingOwners = this.config.owners.filter(
-      (owner) => !onChainOwners.map((o: string) => o.toLowerCase()).includes(owner.toLowerCase()),
-    );
+    const missingOwners = this.config.owners.filter((owner) => !onChainOwners.map((o) => o.toLowerCase()).includes(owner.toLowerCase()));
 
     if (missingOwners.length > 0) {
       console.warn(`⚠️ Config owners not found on-chain: ${missingOwners.join(", ")}`);
     }
 
-    const extraOwners = onChainOwners.filter(
-      (owner: string) => !this.config.owners.map((o: string) => o.toLowerCase()).includes(owner.toLowerCase()),
-    );
+    const extraOwners = onChainOwners.filter((owner) => !this.config.owners.map((o) => o.toLowerCase()).includes(owner.toLowerCase()));
 
     if (extraOwners.length > 0) {
       console.warn(`⚠️ Unexpected owners found on-chain: ${extraOwners.join(", ")}`);

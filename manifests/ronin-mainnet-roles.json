@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "network": "ronin_mainnet",
+  "deployer": "0x0f5e3D9AEe7Ab5fDa909Af1ef147D98a7f4B3022",
+  "governance": "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf",
+  "defaults": {
+    "ownable": {
+      "newOwner": "{{governance}}",
+      "execution": "direct"
+    },
+    "defaultAdmin": {
+      "newAdmin": "{{governance}}",
+      "grantExecution": "direct",
+      "remove": {
+        "address": "{{deployer}}",
+        "strategy": "renounce",
+        "execution": "direct",
+        "enabled": true
+      }
+    }
+  },
+  "autoInclude": {
+    "ownable": true,
+    "defaultAdmin": true
+  },
+  "exclusions": [],
+  "overrides": [],
+  "safe": {
+    "safeAddress": "0x8fe3Bea6660709dA8a6dc0533B66DDc051c088Bf",
+    "threshold": 1,
+    "chainId": 2020,
+    "rpcUrl": "https://api.roninchain.com/rpc",
+    "description": "Ronin mainnet governance Safe"
+  },
+  "output": {
+    "json": "reports/roles/ronin-mainnet-latest.json"
+  }
+}

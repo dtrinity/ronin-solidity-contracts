@@ -1,7 +1,7 @@
+import { SafeTransactionData } from "@dtrinity/shared-hardhat-tools";
 import { Signer } from "ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { SafeTransactionData } from "@dtrinity/shared-hardhat-tools";
 
 import { getConfig } from "../../config/config";
 import {
